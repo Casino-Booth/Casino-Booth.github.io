@@ -10,37 +10,82 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Zen+Old+Mincho:wght@500;700&family=Noto+Sans+JP:wght@400;700&display=swap">
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
 <style>
-/* One A4 sheet, white for any printer, with a large QR. The QR points at this site, or at the address after # for a preview. */
+/* One A4 sheet with a large QR. ?theme=white|ivory|noir|rouge|rose picks the colours; the backdrop, frame and
+   Art Deco corners are one SVG, so they print without the browser's "background graphics" option.
+   The QR always sits on white and points at this site, or at the address after # for a preview. */
 @page { size: A4; margin: 0; }
-:root { --ink: #111; --gold: #9C8150; --soft: #555; }
+:root { --bg: #FFF; --bg2: #FFF; --ink: #111; --gold: #9C8150; --soft: #555; --rays: 0; --deco: 0; }
+:root[data-theme="ivory"] { --bg: #FBF6EA; --bg2: #F1E6CC; --ink: #1A1612; --gold: #A88A4E; --soft: #5E5444; --rays: 0.12; --deco: 1; }
+:root[data-theme="noir"] { --bg: #17201C; --bg2: #050706; --ink: #F4ECDA; --gold: #D9B86C; --soft: #CFC5B0; --rays: 0.2; --deco: 1; }
+:root[data-theme="rouge"] { --bg: #5E0D14; --bg2: #1E0306; --ink: #F6EBD9; --gold: #E0C07A; --soft: #E3CFB8; --rays: 0.2; --deco: 1; }
+:root[data-theme="rose"] { --bg: #FBE9E7; --bg2: #EFC8C6; --ink: #3A2326; --gold: #B07A66; --soft: #6E5154; --rays: 0.16; --deco: 1; }
 * { box-sizing: border-box; }
-html, body { margin: 0; background: #E9E6DF; color: var(--ink); font-family: "Noto Sans JP", sans-serif; }
-.sheet { width: 210mm; height: 297mm; margin: 0 auto; background: #FFF; padding: 12mm; position: relative; overflow: hidden; }
-.frame { position: absolute; inset: 9mm; border: 0.3mm solid var(--gold); }
-.inner { position: relative; height: 100%; display: flex; flex-direction: column; align-items: center; text-align: center; padding-top: 11mm; }
+html, body { margin: 0; background: #E9E6DF; font-family: "Noto Sans JP", sans-serif; }
+.sheet { width: 210mm; height: 297mm; margin: 0 auto; position: relative; overflow: hidden; color: var(--ink); }
+.art { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.deco { opacity: var(--deco); }
+.inner { position: relative; height: 100%; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 23mm 12mm 12mm; }
 .school { margin: 0; font-family: "Cormorant Garamond", serif; font-weight: 600; font-size: 4.6mm; letter-spacing: 2mm; text-transform: uppercase; color: var(--gold); }
 .title { margin: 4mm 0 0; font-family: "Cormorant Garamond", serif; font-weight: 500; font-size: 18mm; letter-spacing: 2.4mm; line-height: 1.05; }
 .eyebrow { margin: 3mm 0 0; font-family: "Cormorant Garamond", serif; font-weight: 600; font-size: 5mm; letter-spacing: 3.4mm; text-transform: uppercase; color: var(--gold); }
-.qr { width: 122mm; height: 122mm; margin-top: 8mm; }
+.qrbox { margin-top: 8mm; background: #FFF; padding: 0; }
+:root:not([data-theme="white"]) .qrbox { padding: 3mm; border: 0.6mm solid var(--gold); outline: 0.25mm solid var(--gold); outline-offset: 1.2mm; }
+.qr { width: 116mm; height: 116mm; }
 .qr svg { width: 100%; height: 100%; display: block; }
-.url { margin-top: 1mm; font-size: 4.2mm; letter-spacing: 0.2mm; color: var(--soft); }
-ol { list-style: none; padding: 0; margin: 9mm 0 0; text-align: left; font-size: 5.8mm; font-weight: 700; }
+.url { margin-top: 2.5mm; font-size: 4.2mm; letter-spacing: 0.2mm; color: var(--soft); }
+ol { list-style: none; padding: 0; margin: 7mm 0 0; text-align: left; font-size: 5.8mm; font-weight: 700; }
 li { display: flex; align-items: center; gap: 4mm; margin: 0 0 3mm; }
-li b { flex: none; width: 8.5mm; height: 8.5mm; border: 0.3mm solid var(--ink); display: grid; place-items: center; font-family: "Cormorant Garamond", serif; font-weight: 600; font-size: 5.2mm; }
-.fine { margin-top: auto; padding-bottom: 5mm; font-size: 3.5mm; color: var(--soft); line-height: 1.7; }
+li b { flex: none; width: 8.5mm; height: 8.5mm; border: 0.3mm solid var(--gold); display: grid; place-items: center; font-family: "Cormorant Garamond", serif; font-weight: 600; font-size: 5.2mm; color: var(--gold); }
+.fine { margin-top: auto; padding-bottom: 6mm; font-size: 3.5mm; color: var(--soft); line-height: 1.7; }
 @media screen { body { padding: 16px 0; } .sheet { box-shadow: 0 2px 16px rgba(0, 0, 0, 0.25); } }
 @media screen and (max-width: 800px) { .sheet { zoom: 0.45; } }
-@media print { html, body { background: #FFF; } }
 </style>
 </head>
 <body>
 <div class="sheet">
-  <div class="frame"></div>
+  <svg class="art" viewBox="0 0 210 297" preserveAspectRatio="none" aria-hidden="true">
+    <defs>
+      <radialGradient id="bgfill" cx="50%" cy="45%" r="75%">
+        <stop offset="0" style="stop-color: var(--bg)"/>
+        <stop offset="1" style="stop-color: var(--bg2)"/>
+      </radialGradient>
+      <!-- one Art Deco corner fan: arcs, rays and a stepped edge, drawn for the top-left corner -->
+      <g id="corner" style="stroke: var(--gold)" fill="none">
+        <path d="M 11.5 21 A 9.5 9.5 0 0 1 21 11.5" stroke-width="0.35"/>
+        <path d="M 11.5 26 A 14.5 14.5 0 0 1 26 11.5" stroke-width="0.35"/>
+        <path d="M 11.5 31 A 19.5 19.5 0 0 1 31 11.5" stroke-width="0.25"/>
+        <path d="M 11.5 15.5 L 11.5 31 M 15.5 11.5 L 31 11.5" stroke-width="0"/>
+        <path d="M 11.5 11.5 L 30 11.5 M 11.5 11.5 L 11.5 30" stroke-width="0"/>
+        <path d="M 11.5 11.5 L 25.3 25.3 M 11.5 11.5 L 18.9 29.5 M 11.5 11.5 L 29.5 18.9" stroke-width="0.25"/>
+        <path d="M 15 37 L 15 15 L 37 15" stroke-width="0.3"/>
+        <path d="M 18 42 L 18 18 L 42 18" stroke-width="0.2"/>
+      </g>
+    </defs>
+    <rect width="210" height="297" fill="url(#bgfill)"/>
+    <g style="stroke: var(--gold); opacity: var(--rays)" stroke-width="0.35">
+      <line x1="105" y1="148" x2="105" y2="-40"/><line x1="105" y1="148" x2="155" y2="-40"/><line x1="105" y1="148" x2="55" y2="-40"/>
+      <line x1="105" y1="148" x2="210" y2="-20"/><line x1="105" y1="148" x2="0" y2="-20"/><line x1="105" y1="148" x2="250" y2="40"/>
+      <line x1="105" y1="148" x2="-40" y2="40"/><line x1="105" y1="148" x2="260" y2="120"/><line x1="105" y1="148" x2="-50" y2="120"/>
+      <line x1="105" y1="148" x2="260" y2="200"/><line x1="105" y1="148" x2="-50" y2="200"/><line x1="105" y1="148" x2="250" y2="300"/>
+      <line x1="105" y1="148" x2="-40" y2="300"/><line x1="105" y1="148" x2="180" y2="340"/><line x1="105" y1="148" x2="30" y2="340"/>
+      <line x1="105" y1="148" x2="105" y2="340"/><line x1="105" y1="148" x2="130" y2="-40"/><line x1="105" y1="148" x2="80" y2="-40"/>
+    </g>
+    <rect x="9" y="9" width="192" height="279" fill="none" style="stroke: var(--gold)" stroke-width="0.45"/>
+    <g class="deco">
+      <rect x="11.5" y="11.5" width="187" height="274" fill="none" style="stroke: var(--gold)" stroke-width="0.25"/>
+      <use href="#corner"/>
+      <use href="#corner" transform="translate(210 0) scale(-1 1)"/>
+      <use href="#corner" transform="translate(0 297) scale(1 -1)"/>
+      <use href="#corner" transform="translate(210 297) scale(-1 -1)"/>
+      <path d="M 105 6 L 108 9 L 105 12 L 102 9 Z" style="fill: var(--gold)"/>
+      <path d="M 105 285 L 108 288 L 105 291 L 102 288 Z" style="fill: var(--gold)"/>
+    </g>
+  </svg>
   <div class="inner">
     <p class="school">Keio High School</p>
     <h1 class="title">GRAND CASINO</h1>
     <p class="eyebrow">Photo Booth</p>
-    <div class="qr" id="qr"></div>
+    <div class="qrbox"><div class="qr" id="qr"></div></div>
     <div class="url" id="url"></div>
     <ol>
       <li><b>1</b><span>スマホのカメラでQRコードを読み取る</span></li>
@@ -52,6 +97,8 @@ li b { flex: none; width: 8.5mm; height: 8.5mm; border: 0.3mm solid var(--ink); 
   </div>
 </div>
 <script>
+const theme = new URLSearchParams(location.search).get('theme') || 'white';
+document.documentElement.dataset.theme = theme;
 const site = location.hash.length > 1 ? decodeURIComponent(location.hash.slice(1)) : location.origin + '/';
 const target = site + '?openExternalBrowser=1';
 const qr = qrcode(0, 'M'); qr.addData(target); qr.make();
