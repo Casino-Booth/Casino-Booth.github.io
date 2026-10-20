@@ -1,0 +1,27 @@
+{
+ "opera": {
+  "ja": "オペラ座",
+  "credit": "Photo: Jean-Pierre Dalbéra, CC BY 2.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Le_grand_foyer_de_l%27Op%C3%A9ra_Garnier_(Paris).jpg"
+ },
+ "rouge": {
+  "ja": "オペラ座ルージュ",
+  "credit": "",
+  "source": "https://commons.wikimedia.org/wiki/File:Palais_Garnier_foyer,_Paris.jpg"
+ },
+ "montecarlo": {
+  "ja": "モンテカルロ",
+  "credit": "",
+  "source": "https://commons.wikimedia.org/wiki/File:Casino_entrance,_atrium,_Monte_Carlo,_Riviera-LCCN2001699319.jpg"
+ },
+ "mirrors": {
+  "ja": "鏡の間",
+  "credit": "Photo: Jorge Láscar, CC BY 2.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Galerie_des_Glaces_(24302153005).jpg"
+ },
+ "salon1900": {
+  "ja": "サロン1900",
+  "credit": "",
+  "source": "https://commons.wikimedia.org/wiki/File:Interieur_van_het_Monte_Carlo_Casino_de_Salle_de_Trente_et_Quarante_Principaut%C3%A9_de_Monaco_(titel_op_object),_RP-F-2001-7-1146-41.jpg"
+ }
+}

@@ -7,27 +7,27 @@
 <title>Photo Booth Poster</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,500;6..96,700&family=Great+Vibes&family=Zen+Old+Mincho:wght@700&family=Noto+Sans+JP:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Zen+Old+Mincho:wght@500;700&family=Noto+Sans+JP:wght@400;700&display=swap">
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
 <style>
 /* One A4 sheet, white for any printer; the QR points at this site (or at the address after # for a preview). */
 @page { size: A4; margin: 0; }
-:root { --ink: #111; --gold: #A8822E; --soft: #555; }
+:root { --ink: #111; --gold: #9C8150; --soft: #555; }
 * { box-sizing: border-box; }
 html, body { margin: 0; background: #E9E6DF; color: var(--ink); font-family: "Noto Sans JP", sans-serif; }
 .sheet { width: 210mm; height: 297mm; margin: 0 auto; background: #FFF; padding: 12mm; position: relative; overflow: hidden; }
-.frame { position: absolute; inset: 8mm; border: 0.8mm solid var(--gold); outline: 0.3mm solid var(--gold); outline-offset: -2.2mm; }
+.frame { position: absolute; inset: 9mm; border: 0.3mm solid var(--gold); }
 .inner { position: relative; height: 100%; display: flex; flex-direction: column; align-items: center; text-align: center; padding-top: 10mm; }
-.school { font-family: "Great Vibes", cursive; font-size: 13mm; color: var(--gold); line-height: 1; }
-.title { font-family: "Bodoni Moda", serif; font-weight: 700; font-size: 19mm; letter-spacing: 1.5mm; margin: 2mm 0 0; line-height: 1.05; }
-.eyebrow { font-family: "Bodoni Moda", serif; font-weight: 500; font-size: 6mm; letter-spacing: 3mm; color: var(--gold); margin: 2mm 0 0; }
-.lead { font-family: "Zen Old Mincho", serif; font-size: 7mm; margin: 7mm 0 0; }
+.school { font-family: "Cormorant Garamond", serif; font-weight: 600; font-size: 4.6mm; letter-spacing: 2mm; text-transform: uppercase; color: var(--gold); }
+.title { font-family: "Cormorant Garamond", serif; font-weight: 500; font-size: 18mm; letter-spacing: 2.6mm; margin: 4mm 0 0; line-height: 1.05; }
+.eyebrow { font-family: "Cormorant Garamond", serif; font-weight: 600; font-size: 5mm; letter-spacing: 3.4mm; color: var(--gold); margin: 3mm 0 0; }
+.lead { font-family: "Zen Old Mincho", serif; font-weight: 500; font-size: 6.4mm; margin: 7mm 0 0; }
 .qr { width: 92mm; height: 92mm; margin-top: 6mm; }
 .qr svg { width: 100%; height: 100%; display: block; }
 .url { font-size: 4.2mm; color: var(--soft); margin-top: 1mm; letter-spacing: 0.2mm; }
 ol { list-style: none; padding: 0; margin: 8mm 0 0; text-align: left; font-size: 6.2mm; font-weight: 700; }
 li { display: flex; align-items: center; gap: 4mm; margin: 0 0 3.5mm; }
-li b { flex: none; width: 9mm; height: 9mm; border-radius: 50%; background: var(--ink); color: #FFF; display: grid; place-items: center; font-family: "Bodoni Moda", serif; font-size: 5.5mm; }
+li b { flex: none; width: 9mm; height: 9mm; border: 0.3mm solid var(--ink); display: grid; place-items: center; font-family: "Cormorant Garamond", serif; font-weight: 600; font-size: 5.5mm; }
 .fine { margin-top: auto; padding-bottom: 6mm; font-size: 3.7mm; color: var(--soft); line-height: 1.7; }
 @media screen { body { padding: 16px 0; } .sheet { box-shadow: 0 2px 16px rgba(0,0,0,.25); } }
 @media screen and (max-width: 800px) { .sheet { zoom: 0.45; } }

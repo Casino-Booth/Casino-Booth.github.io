@@ -8,24 +8,21 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;0,6..96,700;1,6..96,500&family=Great+Vibes&family=IBM+Plex+Mono:wght@500;600&family=Zen+Old+Mincho:wght@700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Zen+Old+Mincho:wght@500;700&display=swap">
 <style>
-/* Layout: full-screen phone app, one screen at a time; one dark casino-lounge look in every theme */
+/* Layout: full-screen phone app, one screen at a time. Look: flat ivory and brass on near-black, like a grand hotel's print work. */
 :root {
   color-scheme: dark;
-  --bg: #0A0B0A;
-  --panel: #151815;
-  --felt: #0F3D2B;
-  --gold: #D4AF5A;
-  --gold-hi: #F1D98F;
-  --gold-lo: #8E7434;
-  --ink: #F4EFE1;
-  --muted: #B8B19E;
-  --f-display: "Bodoni Moda", "Bodoni 72", Didot, Georgia, serif;
-  --f-script: "Great Vibes", "Snell Roundhand", "Segoe Script", cursive;
+  --bg: #0B0A08;
+  --panel: #17140F;
+  --gold: #C2A36B;
+  --gold-hi: #E6D3A8;
+  --gold-lo: #6E5D3C;
+  --ink: #F2ECDF;
+  --muted: #A39C8C;
+  --f-display: "Cormorant Garamond", "Didot", Georgia, serif;
   --f-jp: "Zen Old Mincho", "Hiragino Mincho ProN", "Yu Mincho", serif;
   --f-body: "Hiragino Sans", "Noto Sans JP", "Yu Gothic", system-ui, sans-serif;
-  --f-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
 }
 [hidden] { display: none !important; }
 html, body { height: 100%; }
@@ -39,24 +36,22 @@ button:focus-visible, .file-btn:focus-within { outline: 2px solid var(--gold-hi)
   padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 16px);
   padding-left: max(16px, env(safe-area-inset-left, 0px));
   padding-right: max(16px, env(safe-area-inset-right, 0px));
-  background: radial-gradient(120% 70% at 50% 0%, #2A1C0C 0%, var(--bg) 70%);
+  background: var(--bg);
 }
 .center { align-items: center; justify-content: center; text-align: center; gap: 16px; }
 
-.badge { font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.18em; color: var(--gold); border: 1px solid var(--gold-lo); border-radius: 999px; padding: 3px 10px; }
-.script { margin: 0; font-family: var(--f-script); font-size: clamp(40px, 12vw, 60px); line-height: 1; color: var(--gold-hi); }
-.title { margin: -6px 0 0; font-family: var(--f-display); font-weight: 700; font-size: clamp(34px, 10vw, 54px); letter-spacing: 0.08em; line-height: 1; color: var(--ink); text-wrap: balance; }
-.eyebrow { margin: 0; font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.4em; color: var(--gold); }
-.sub { margin: 6px 0 0; font-family: var(--f-jp); font-size: 19px; }
+.badge { font-size: 11px; letter-spacing: 0.18em; color: var(--gold); border: 1px solid var(--gold-lo); padding: 3px 10px; }
+#s-welcome { background: linear-gradient(180deg, rgba(11, 10, 8, 0.5), rgba(11, 10, 8, 0.9) 62%), url("bg/rouge.jpg") center 30% / cover, var(--bg); }
+.overline { margin: 0; font-family: var(--f-display); font-weight: 600; font-size: 13px; letter-spacing: 0.42em; text-transform: uppercase; color: var(--gold-hi); }
+.title { margin: 0; font-family: var(--f-display); font-weight: 500; font-size: clamp(38px, 11.5vw, 60px); letter-spacing: 0.14em; text-transform: uppercase; line-height: 1.05; color: var(--ink); text-wrap: balance; }
+.rule { display: block; width: 56px; height: 1px; background: var(--gold); }
+.eyebrow { margin: 0; font-family: var(--f-display); font-weight: 600; font-size: 13px; letter-spacing: 0.5em; text-transform: uppercase; color: var(--gold); }
+.sub { margin: 10px 0 4px; font-family: var(--f-jp); font-weight: 500; font-size: 17px; color: var(--ink); }
 .fine { margin: 0; font-size: 13px; line-height: 1.65; color: var(--muted); max-width: 30em; text-wrap: pretty; }
 
-.primary {
-  font-family: var(--f-jp); font-weight: 700; font-size: 20px; color: #1A1406; border: 0; border-radius: 999px; padding: 15px 36px;
-  background: linear-gradient(180deg, var(--gold-hi), var(--gold) 55%, var(--gold-lo));
-  box-shadow: 0 6px 22px rgba(212, 175, 90, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.5);
-}
-.primary:disabled { filter: grayscale(0.7) brightness(0.6); }
-.ghost { background: transparent; color: var(--ink); border: 1px solid rgba(212, 175, 90, 0.5); border-radius: 999px; padding: 10px 16px; font-size: 14px; }
+.primary { font-family: var(--f-jp); font-weight: 700; font-size: 18px; letter-spacing: 0.12em; color: #15120D; background: var(--ink); border: 0; border-radius: 2px; padding: 15px 40px; }
+.primary:disabled { opacity: 0.45; }
+.ghost { background: transparent; color: var(--ink); border: 1px solid rgba(194, 163, 107, 0.6); border-radius: 2px; padding: 11px 18px; font-size: 14px; letter-spacing: 0.08em; }
 .ghost:disabled { opacity: 0.4; }
 
 /* Camera */
@@ -66,13 +61,10 @@ button:focus-visible, .file-btn:focus-within { outline: 2px solid var(--gold-hi)
 #video.mirror { transform: scaleX(-1); }
 #preview { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 #live-note { position: absolute; left: 50%; top: calc(env(safe-area-inset-top, 0px) + 12px); transform: translateX(-50%); margin: 0; max-width: 90%; background: rgba(0, 0, 0, 0.7); color: var(--gold-hi); padding: 6px 12px; border-radius: 999px; font-size: 13px; text-align: center; }
-#count { position: absolute; inset: 0; display: grid; place-items: center; font-family: var(--f-display); font-weight: 700; font-size: 36vmin; color: #fff; text-shadow: 0 6px 40px rgba(0, 0, 0, 0.7); pointer-events: none; }
+#count { position: absolute; inset: 0; display: grid; place-items: center; font-family: var(--f-display); font-weight: 500; font-size: 40vmin; color: #fff; text-shadow: 0 4px 30px rgba(0, 0, 0, 0.6); pointer-events: none; }
 #count.pop { animation: pop 0.9s ease-out; }
 @keyframes pop { 0% { transform: scale(1.35); opacity: 0; } 25% { opacity: 1; } 100% { transform: scale(0.9); opacity: 0.85; } }
-#dark { position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%); background: rgba(0, 0, 0, 0.75); color: var(--gold-hi); padding: 8px 14px; border-radius: 999px; font-size: 14px; white-space: nowrap; }
-.chips { display: flex; gap: 8px; overflow-x: auto; background: var(--bg); padding-top: 12px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); scrollbar-width: none; }
-.chip { flex: none; background: var(--panel); color: var(--muted); border: 1px solid #2E2A20; border-radius: 999px; padding: 7px 13px; font-size: 13px; }
-.chip[aria-pressed="true"] { color: #1A1406; background: var(--gold); border-color: var(--gold); }
+#dark { position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%); background: rgba(0, 0, 0, 0.75); color: var(--gold-hi); padding: 8px 14px; border-radius: 2px; font-size: 14px; white-space: nowrap; }
 .controls {
   display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 12px; background: var(--bg);
   padding-top: 12px; padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 14px);
@@ -80,42 +72,42 @@ button:focus-visible, .file-btn:focus-within { outline: 2px solid var(--gold-hi)
 }
 .controls > :first-child { justify-self: start; }
 .controls > :last-child { justify-self: end; }
-.shutter { width: 78px; height: 78px; border-radius: 50%; border: 4px solid var(--gold-hi); background: radial-gradient(circle, #fff 0 58%, transparent 60%); padding: 0; }
+.shutter { width: 76px; height: 76px; border-radius: 50%; border: 3px solid var(--ink); background: radial-gradient(circle, #fff 0 60%, transparent 62%); padding: 0; }
 .shutter:disabled { opacity: 0.4; }
 #flash { position: fixed; inset: 0; background: #fff; opacity: 0; pointer-events: none; z-index: 20; }
 #flash.go { animation: flash 0.55s ease-out; }
 @keyframes flash { 0% { opacity: 1; } 100% { opacity: 0; } }
 
 /* Taking a photo with the phone's own camera */
-.pick-title { margin: 0; font-family: var(--f-jp); font-size: 22px; color: var(--gold-hi); }
+.pick-title { margin: 0; font-family: var(--f-jp); font-weight: 500; font-size: 21px; color: var(--ink); }
 .file-btn { position: relative; overflow: hidden; display: inline-block; }
 .file-btn input { position: absolute; inset: 0; opacity: 0; width: 100%; height: 100%; cursor: pointer; }
 .tips { margin: 6px 0 0; padding: 0; list-style: none; display: grid; gap: 6px; font-size: 13px; color: var(--muted); text-align: left; }
-.tips li::before { content: "♦ "; color: var(--gold); }
+.tips li::before { content: "— "; color: var(--gold); }
 
 /* Developing */
-.spin { width: 86px; height: 86px; border-radius: 50%; border: 9px dashed var(--gold); box-shadow: inset 0 0 0 10px #7A1A1A; animation: spin 1.4s linear infinite; }
+.spin { width: 54px; height: 54px; border-radius: 50%; border: 1.5px solid rgba(194, 163, 107, 0.25); border-top-color: var(--gold-hi); animation: spin 1.1s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
-.work-text { margin: 0; font-family: var(--f-jp); font-size: 20px; color: var(--gold-hi); }
+.work-text { margin: 0; font-family: var(--f-jp); font-weight: 500; font-size: 18px; letter-spacing: 0.08em; color: var(--ink); }
 
 /* Result */
 .result { align-items: center; gap: 14px; }
 .result-frame { display: flex; justify-content: center; width: 100%; }
-#result { display: block; max-width: 100%; max-height: 54vh; width: auto; height: auto; border-radius: 4px; box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6); }
+#result { display: block; max-width: 100%; max-height: 54vh; width: auto; height: auto; box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6); }
 .picker { width: 100%; max-width: 36rem; min-width: 0; }
-.picker h3 { margin: 0 0 8px; font-family: var(--f-mono); font-size: 11px; font-weight: 500; letter-spacing: 0.26em; color: var(--gold); }
+.picker h3 { margin: 0 0 8px; font-family: var(--f-jp); font-size: 12px; font-weight: 500; letter-spacing: 0.3em; color: var(--gold); }
 .bg-row { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
 .bg-opt { flex: none; display: flex; flex-direction: column; align-items: center; gap: 5px; width: 80px; padding: 0; background: none; border: 0; color: var(--muted); font-size: 11.5px; white-space: nowrap; }
-.bg-opt canvas { width: 72px; height: 90px; display: block; border-radius: 8px; border: 2px solid transparent; background: var(--panel); }
+.bg-opt canvas { width: 72px; height: 90px; display: block; border-radius: 2px; border: 1.5px solid transparent; background: var(--panel); }
 .bg-opt[aria-pressed="true"] { color: var(--gold-hi); }
 .bg-opt[aria-pressed="true"] canvas { border-color: var(--gold-hi); }
 .bg-opt:disabled { opacity: 0.35; }
 .seg { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
-.seg button { background: var(--panel); color: var(--muted); border: 1px solid #2E2A20; border-radius: 10px; padding: 9px 4px; font-size: 14px; }
-.seg button[aria-pressed="true"] { color: #1A1406; background: var(--gold); border-color: var(--gold); }
+.seg button { background: transparent; color: var(--muted); border: 1px solid #3A3326; border-radius: 2px; padding: 9px 4px; font-size: 14px; letter-spacing: 0.06em; }
+.seg button[aria-pressed="true"] { color: #15120D; background: var(--ink); border-color: var(--ink); }
 .actions { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 10px; }
 #save-msg { margin: 0; min-height: 1.4em; font-size: 14px; color: var(--gold-hi); max-width: 26em; text-align: center; }
-.status { margin: 0; font-family: var(--f-mono); font-size: 11px; line-height: 1.5; color: var(--muted); text-align: center; max-width: 34em; }
+.status { margin: 0; font-size: 11px; line-height: 1.5; color: var(--muted); text-align: center; max-width: 34em; }
 
 @media (prefers-reduced-motion: reduce) {
   .spin, #count.pop { animation: none; }
@@ -125,13 +117,14 @@ button:focus-visible, .file-btn:focus-within { outline: 2px solid var(--gold-hi)
 <body>
 
 <section id="s-welcome" class="screen center">
-  <p id="w-school" class="script">Keio High School</p>
-  <h1 class="title">CASINO NIGHT</h1>
-  <p class="eyebrow">PHOTO BOOTH</p>
+  <p id="w-school" class="overline">Keio High School</p>
+  <h1 class="title">Casino Night</h1>
+  <span class="rule"></span>
+  <p class="eyebrow">Photo Booth</p>
   <p class="sub">撮るのは1枚。背景はあとで選べます。</p>
   <button id="start" class="primary" type="button">撮影をはじめる</button>
   <label class="ghost file-btn">スマホのカメラで撮る<input id="file-cam0" type="file" accept="image/*" capture="user"></label>
-  <p class="fine">AIが人を切り抜いて、カジノの背景の前に立たせます。<br>写真はこのスマホの中だけで作られ、どこにも送られません。</p>
+  <p class="fine">モンテカルロのカジノやパリ・オペラ座の写真の中に立てます。<br>写真はこのスマホの中だけで作られ、どこにも送られません。</p>
 </section>
 
 <section id="s-camera" class="screen" hidden>
@@ -142,7 +135,6 @@ button:focus-visible, .file-btn:focus-within { outline: 2px solid var(--gold-hi)
     <div id="count" hidden aria-live="assertive"></div>
     <div id="dark" hidden>少し暗いです。明るい方へ寄ってください</div>
   </div>
-  <div id="live-bgs" class="chips" role="group" aria-label="背景"></div>
   <div class="controls">
     <button id="flip-cam" class="ghost" type="button">カメラ切替</button>
     <button id="shutter" class="shutter" type="button" aria-label="撮影"></button>
@@ -209,29 +201,28 @@ const MODEL_CDN = 'https://storage.googleapis.com/mediapipe-models/image_segment
 const MULTI_CDN = 'https://storage.googleapis.com/mediapipe-models/image_segmenter/selfie_multiclass_256x256/float32/latest/selfie_multiclass_256x256.tflite';
 const FACE_CDN = 'https://storage.googleapis.com/mediapipe-models/face_detector/blaze_face_short_range/float16/latest/blaze_face_short_range.tflite';
 
+// Photographs of real rooms (bg/, built by fetch-backgrounds.py). CC BY photos print their credit on every image.
 const BGS = [
-  { id: 'salon', ja: 'サロン' },
-  { id: 'table', ja: 'VIPテーブル' },
-  { id: 'velvet', ja: 'ベルベット' },
-  { id: 'deco', ja: 'アールデコ' },
-  { id: 'jackpot', ja: 'ジャックポット' },
-  { id: 'balloon', ja: 'バルーン' },
-  { id: 'real', ja: 'そのまま' },
+  { id: 'opera', ja: 'オペラ座', credit: 'Photo: Jean-Pierre Dalbéra, CC BY 2.0' },
+  { id: 'rouge', ja: 'ルージュ' },
+  { id: 'montecarlo', ja: 'モンテカルロ' },
+  { id: 'mirrors', ja: '鏡の間', credit: 'Photo: Jorge Láscar, CC BY 2.0' },
+  { id: 'salon1900', ja: 'サロン1900' },
 ];
 // pw/ph: the photo inside the frame; top: head room above the people, as a share of the photo height
 const FRAMES = {
   feed: { ja: 'シンプル', w: 1080, h: 1350, px: 0, py: 0, pw: 1080, ph: 1350, top: 0.13 },
-  story: { ja: 'ストーリー', w: 1080, h: 1920, px: 0, py: 0, pw: 1080, ph: 1920, top: 0.26 },
+  story: { ja: 'ストーリー', w: 1080, h: 1920, px: 0, py: 0, pw: 1080, ph: 1920, top: 0.31 },
   post: { ja: '投稿風', w: 1080, h: 1920, px: 0, py: 300, pw: 1080, ph: 1080, top: 0.1 },
 };
 // How the people are coloured to sit in each background
 const LOOKS = {
-  salon: { tint: [1.03, 1.0, 0.93], sat: 1.0, target: 0.5, wrap: 0.4, shadow: 0.4, vig: 0.42 },
-  table: { tint: [1.01, 1.01, 0.96], sat: 1.0, target: 0.5, wrap: 0.34, shadow: 0.45, vig: 0.45 },
-  velvet: { tint: [1.03, 0.99, 0.96], sat: 1.0, target: 0.5, wrap: 0.38, shadow: 0.5, vig: 0.4 },
-  deco: { tint: [1.01, 1.0, 0.98], sat: 0.98, target: 0.5, wrap: 0.2, shadow: 0.6, vig: 0.38 },
-  jackpot: { tint: [1.04, 1.01, 0.91], sat: 1.02, target: 0.53, wrap: 0.42, shadow: 0.32, vig: 0.36 },
-  balloon: { tint: [1.02, 1.0, 0.97], sat: 1.0, target: 0.52, wrap: 0.28, shadow: 0.5, vig: 0.36 },
+  opera: { tint: [1.04, 1.0, 0.9], sat: 0.95, target: 0.5, wrap: 0.35, shadow: 0.22, vig: 0.4 },
+  rouge: { tint: [1.05, 0.98, 0.9], sat: 0.95, target: 0.48, wrap: 0.38, shadow: 0.25, vig: 0.45 },
+  montecarlo: { tint: [1.03, 1.0, 0.92], sat: 0.9, target: 0.5, wrap: 0.3, shadow: 0.22, vig: 0.4 },
+  mirrors: { tint: [1.02, 1.0, 0.95], sat: 0.95, target: 0.52, wrap: 0.3, shadow: 0.2, vig: 0.36 },
+  // sat 0 and a warm tint turn the people sepia, like the 1900 photograph behind them
+  salon1900: { tint: [1.1, 0.98, 0.8], sat: 0, target: 0.52, wrap: 0.25, shadow: 0.2, vig: 0.45 },
   real: { tint: [1.02, 1.0, 0.96], sat: 1.04, target: 0.5, wrap: 0, shadow: 0, vig: 0.34 },
 };
 
@@ -246,7 +237,7 @@ const reducedMotion = !!(window.matchMedia && matchMedia('(prefers-reduced-motio
 
 const state = {
   mode: 'live', stream: null, facing: 'user', photo: null, cut: null,
-  bg: 'salon', frame: 'feed', blob: null, url: null, busy: false, cutNote: '',
+  bg: 'opera', frame: 'feed', blob: null, url: null, busy: false, cutNote: '',
 };
 
 // The Claude viewer's save capability; null everywhere else.
@@ -303,10 +294,9 @@ function loadFonts() {
   if (!fontsP) {
     fontsP = (document.fonts && document.fonts.load)
       ? withTimeout(Promise.all([
-          document.fonts.load('80px "Great Vibes"'),
-          document.fonts.load('700 80px "Bodoni Moda"'),
-          document.fonts.load('500 30px "Bodoni Moda"'),
-          document.fonts.load('600 30px "IBM Plex Mono"'),
+          document.fonts.load('500 80px "Cormorant Garamond"'),
+          document.fonts.load('600 30px "Cormorant Garamond"'),
+          document.fonts.load('italic 500 80px "Cormorant Garamond"'),
         ]).catch(() => null), 3000)
       : Promise.resolve(null);
   }
@@ -569,24 +559,9 @@ function toBlob(c) {
 }
 function rng(seed) { let s = seed >>> 0; return () => ((s = (s * 1664525 + 1013904223) >>> 0) / 4294967296); }
 function rgba(c, a) { return `rgba(${c[0] | 0},${c[1] | 0},${c[2] | 0},${a})`; }
-function mix(a, b, t) { return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t]; }
 function lg(x, x0, y0, x1, y1, stops) { const g = x.createLinearGradient(x0, y0, x1, y1); for (const [o, c] of stops) g.addColorStop(o, c); return g; }
 function rg(x, cx, cy, r0, r1, stops) { const g = x.createRadialGradient(cx, cy, r0, cx, cy, r1); for (const [o, c] of stops) g.addColorStop(o, c); return g; }
-function glow(x, cx, cy, r, c, a, op = 'lighter') {
-  x.save(); x.globalCompositeOperation = op;
-  x.fillStyle = rg(x, cx, cy, 0, r, [[0, rgba(c, a)], [0.4, rgba(c, a * 0.45)], [1, rgba(c, 0)]]);
-  x.fillRect(cx - r, cy - r, r * 2, r * 2); x.restore();
-}
-function bokeh(x, cx, cy, r, c, a) {
-  x.save(); x.globalCompositeOperation = 'screen';
-  x.fillStyle = rg(x, cx, cy, 0, r, [[0, rgba(c, a * 0.5)], [0.8, rgba(c, a * 0.7)], [0.94, rgba(c, a)], [1, rgba(c, 0)]]);
-  x.beginPath(); x.arc(cx, cy, r, 0, TAU); x.fill(); x.restore();
-}
 function ellipse(x, cx, cy, rx, ry, rot = 0) { x.beginPath(); x.ellipse(cx, cy, Math.max(0.1, rx), Math.max(0.1, ry), rot, 0, TAU); }
-function rr(x, X, Y, W, H, R) {
-  x.beginPath(); x.moveTo(X + R, Y); x.arcTo(X + W, Y, X + W, Y + H, R); x.arcTo(X + W, Y + H, X, Y + H, R);
-  x.arcTo(X, Y + H, X, Y, R); x.arcTo(X, Y, X + W, Y, R); x.closePath();
-}
 function vignette(x, W, H, a) {
   x.fillStyle = rg(x, W / 2, H * 0.45, Math.min(W, H) * 0.3, Math.hypot(W, H) * 0.62, [[0, 'rgba(0,0,0,0)'], [1, `rgba(0,0,0,${a})`]]);
   x.fillRect(0, 0, W, H);
@@ -688,397 +663,34 @@ function suitPath(x, suit, cx, cy, s) {
 }
 
 // ---------- casino props drawn in code ----------
-const CHIP = { red: ['#B3161F', '#F3EDE2'], black: ['#1B1B1E', '#D9B45A'], gold: ['#D9A93E', '#FFF6D8'], purple: ['#4B1E6E', '#F3EDE2'], green: ['#126B45', '#F3EDE2'] };
-function chipFace(x, cx, cy, rx, ry, col) {
-  const [base, edge] = CHIP[col];
-  x.fillStyle = base; ellipse(x, cx, cy, rx, ry); x.fill();
-  x.save(); x.strokeStyle = edge; x.lineWidth = Math.max(1, ry * 0.42);
-  for (let k = 0; k < 6; k++) { const a = k / 6 * TAU; x.beginPath(); x.ellipse(cx, cy, rx * 0.84, ry * 0.84, 0, a, a + 0.36); x.stroke(); }
-  x.lineWidth = Math.max(0.6, ry * 0.07); x.globalAlpha = 0.7; ellipse(x, cx, cy, rx * 0.6, ry * 0.6); x.stroke();
-  x.restore();
-  x.fillStyle = 'rgba(255,255,255,0.14)'; ellipse(x, cx - rx * 0.2, cy - ry * 0.25, rx * 0.5, ry * 0.4); x.fill();
-}
-function chipStack(x, cx, baseY, rx, n, col) {
-  const ry = rx * 0.34, t = rx * 0.17, [base, edge] = CHIP[col];
-  for (let i = 0; i < n; i++) {
-    const y = baseY - i * t, jx = Math.sin(i * 2.3 + cx) * rx * 0.03;
-    x.fillStyle = lg(x, cx - rx, 0, cx + rx, 0, [[0, 'rgba(0,0,0,0.55)'], [0.35, base], [0.6, base], [1, 'rgba(0,0,0,0.65)']]);
-    x.beginPath(); x.moveTo(cx + jx + rx, y - t); x.lineTo(cx + jx + rx, y); x.ellipse(cx + jx, y, rx, ry, 0, 0, Math.PI, false);
-    x.lineTo(cx + jx - rx, y - t); x.ellipse(cx + jx, y - t, rx, ry, 0, Math.PI, 0, true); x.closePath(); x.fill();
-    x.fillStyle = base; x.globalAlpha = 0.55; x.fill(); x.globalAlpha = 1;
-    x.fillStyle = edge;
-    for (let k = 0; k < 6; k++) {
-      const a = (k + 0.5) / 6 * Math.PI, sw = rx * 0.17 * Math.sin(a);
-      x.fillRect(cx + jx + Math.cos(a) * rx - sw / 2, y - t + ry * Math.sin(a) + t * 0.15, sw, t * 0.7);
-    }
-  }
-  chipFace(x, cx + Math.sin((n - 1) * 2.3 + cx) * rx * 0.03, baseY - n * t, rx, ry, col);
-}
-function playingCard(x, cx, cy, w, rot, rank, suit, squash = 1) {
-  const h = w * 1.4, red = suit === '♥' || suit === '♦';
-  x.save(); x.translate(cx, cy); x.scale(1, squash); x.rotate(rot);
-  x.shadowColor = 'rgba(0,0,0,0.45)'; x.shadowBlur = w * 0.12; x.shadowOffsetY = w * 0.04;
-  x.fillStyle = '#FBF8F1'; rr(x, -w / 2, -h / 2, w, h, w * 0.07); x.fill();
-  x.shadowColor = 'transparent';
-  x.strokeStyle = 'rgba(0,0,0,0.12)'; x.lineWidth = Math.max(0.5, w * 0.01); x.stroke();
-  x.fillStyle = red ? '#B3261E' : '#141414';
-  x.font = `700 ${w * 0.22}px "Bodoni Moda", Georgia, serif`; x.textAlign = 'center';
-  x.fillText(rank, -w * 0.34, -h * 0.32);
-  suitPath(x, suit, -w * 0.34, -h * 0.2, w * 0.14);
-  suitPath(x, suit, 0, h * 0.04, w * 0.46);
-  x.restore();
-}
-function coin(x, cx, cy, r, rot, tilt) {
-  x.save(); x.translate(cx, cy); x.rotate(rot); x.scale(1, tilt);
-  x.fillStyle = rg(x, -r * 0.3, -r * 0.35, 0, r * 1.25, [[0, '#FFF4C6'], [0.45, '#E4B44C'], [0.85, '#A87420'], [1, '#6E4A10']]);
-  x.beginPath(); x.arc(0, 0, r, 0, TAU); x.fill();
-  x.strokeStyle = 'rgba(255,238,180,0.85)'; x.lineWidth = r * 0.08; x.beginPath(); x.arc(0, 0, r * 0.84, 0, TAU); x.stroke();
-  x.fillStyle = 'rgba(122,82,18,0.6)'; suitPath(x, '♠', r * 0.03, r * 0.03, r * 0.95);
-  x.fillStyle = 'rgba(255,240,190,0.55)'; suitPath(x, '♠', -r * 0.02, -r * 0.02, r * 0.95);
-  x.restore();
-}
 
 // ---------- the backgrounds ----------
 // Each returns { bg, fg }: bg goes behind the people, fg (optional) in front of them.
-const SCENES = {
-  salon(W, H) {
-    const u = W / 1080, r = rng(7), c = mk(W, H), x = c.getContext('2d'), lights = [];
-    x.fillStyle = lg(x, 0, 0, 0, H, [[0, '#23110A'], [0.38, '#4C2711'], [0.62, '#2C140A'], [1, '#100705']]);
-    x.fillRect(0, 0, W, H);
-    // arcade of lit arches on the back wall
-    for (let i = -1; i <= 5; i++) {
-      const cx = W * (0.06 + i * 0.22), aw = W * 0.15, top = H * 0.2, bot = H * 0.6;
-      const arch = () => { x.beginPath(); x.moveTo(cx - aw / 2, bot); x.lineTo(cx - aw / 2, top + aw / 2); x.arc(cx, top + aw / 2, aw / 2, Math.PI, TAU); x.lineTo(cx + aw / 2, bot); x.closePath(); };
-      x.fillStyle = rg(x, cx, H * 0.38, 0, aw * 1.3, [[0, 'rgba(255,184,98,0.75)'], [1, 'rgba(160,80,30,0.15)']]); arch(); x.fill();
-      x.strokeStyle = 'rgba(240,192,112,0.75)'; x.lineWidth = 7 * u; arch(); x.stroke();
-      x.fillStyle = 'rgba(22,10,4,0.85)'; x.fillRect(cx + aw * 0.6, top - 40 * u, W * 0.07, bot - top + 80 * u);
-    }
-    // slot machine banks at both sides
-    const slot = [[255, 70, 80], [90, 150, 255], [255, 205, 90], [200, 100, 255]];
-    for (const side of [0, 1]) for (let j = 0; j < 4; j++) {
-      const w = 66 * u, h = 110 * u, px = side ? W - (34 + j * 82) * u - w : (34 + j * 82) * u, py = H * 0.47 + (j % 2) * 10 * u, col = slot[(j + side * 2) % 4];
-      x.fillStyle = '#160B06'; x.fillRect(px - 6 * u, py - 12 * u, w + 12 * u, h + 160 * u);
-      x.fillStyle = rgba(col, 0.9); x.fillRect(px, py, w, h * 0.55);
-      x.fillStyle = 'rgba(255,230,160,0.9)'; x.fillRect(px, py + h * 0.7, w, 8 * u);
-      glow(x, px + w / 2, py + h * 0.3, 130 * u, col, 0.4);
-      lights.push([px + w / 2, py + h * 0.25, 0.7, col]);
-    }
-    // gaming tables under their lamps
-    for (const fx of [0.3, 0.7]) {
-      const cx = W * fx, cy = H * 0.66;
-      glow(x, cx, cy - 60 * u, 260 * u, [255, 214, 150], 0.3);
-      x.fillStyle = '#0E5236'; ellipse(x, cx, cy, 190 * u, 44 * u); x.fill();
-      x.strokeStyle = 'rgba(214,170,90,0.85)'; x.lineWidth = 9 * u; x.stroke();
-    }
-    // red and gold carpet
-    x.fillStyle = lg(x, 0, H * 0.7, 0, H, [[0, '#4A1010'], [1, '#170505']]); x.fillRect(0, H * 0.7, W, H * 0.3);
-    x.strokeStyle = 'rgba(214,160,80,0.28)'; x.lineWidth = 4 * u;
-    for (let k = -8; k < 16; k++) { x.beginPath(); x.moveTo(W / 2 + k * 40 * u, H * 0.7); x.lineTo(W / 2 + k * 160 * u - W * 0.5, H); x.stroke(); }
-    // chandeliers
-    for (const [fx, fy, s] of [[0.5, 0.09, 1.1], [0.13, 0.06, 0.7], [0.87, 0.06, 0.7]]) {
-      const cx = W * fx, cy = H * fy, k = s * u;
-      glow(x, cx, cy + 50 * k, 340 * k, [255, 188, 110], 0.6);
-      for (const [rx, dy, n] of [[170, 0, 22], [126, 46, 18], [82, 86, 14], [38, 116, 8]]) {
-        for (let j = 0; j < n; j++) {
-          const a = j / n * TAU, px = cx + Math.cos(a) * rx * k, py = cy + dy * k + Math.sin(a) * rx * k * 0.25;
-          x.fillStyle = '#FFF1D2'; x.beginPath(); x.arc(px, py, 5 * k, 0, TAU); x.fill();
-          if (Math.sin(a) > -0.3) lights.push([px, py, s]);
-        }
-      }
-    }
-    const b = blurCanvas(c, 20 * u), bx = b.getContext('2d');
-    free(c);
-    for (const L of lights) if (r() < 0.5) bokeh(bx, L[0] + (r() - 0.5) * 24 * u, L[1] + (r() - 0.5) * 16 * u, (12 + r() * 26) * u * L[2], L[3] || [255, 214, 150], 0.22 + r() * 0.3);
-    for (let k = 0; k < 46; k++) {
-      const col = [[255, 214, 150], [255, 190, 110], [255, 240, 210], [255, 120, 90]][Math.floor(r() * 4)];
-      bokeh(bx, r() * W, H * (0.03 + r() * 0.62), (10 + r() * 46) * u, col, 0.08 + r() * 0.2);
-    }
-    vignette(bx, W, H, 0.5);
-    return { bg: b };
-  },
-
-  table(W, H) {
-    const u = W / 1080, r = rng(21), c = mk(W, H), x = c.getContext('2d'), lights = [];
-    x.fillStyle = lg(x, 0, 0, 0, H, [[0, '#04100B'], [0.45, '#0C2C20'], [0.75, '#081A12'], [1, '#030806']]);
-    x.fillRect(0, 0, W, H);
-    // wood panels with gold trim
-    for (let k = 0; k < 7; k++) {
-      const px = k * W / 6 - W * 0.04;
-      x.fillStyle = 'rgba(40,22,10,0.7)'; x.fillRect(px, H * 0.08, W * 0.1, H * 0.5);
-      x.strokeStyle = 'rgba(212,170,90,0.55)'; x.lineWidth = 4 * u; x.strokeRect(px + 10 * u, H * 0.1, W * 0.1 - 20 * u, H * 0.46);
-    }
-    // far tables in pools of lamp light
-    for (const [fx, fy, s] of [[0.18, 0.5, 0.8], [0.5, 0.47, 0.9], [0.82, 0.5, 0.8]]) {
-      const cx = W * fx, cy = H * fy, lamp = H * 0.13;
-      x.fillStyle = lg(x, 0, lamp, 0, cy, [[0, 'rgba(255,226,160,0.32)'], [1, 'rgba(255,226,160,0.04)']]);
-      x.beginPath(); x.moveTo(cx - 40 * u * s, lamp); x.lineTo(cx + 40 * u * s, lamp); x.lineTo(cx + 230 * u * s, cy); x.lineTo(cx - 230 * u * s, cy); x.closePath(); x.fill();
-      x.fillStyle = '#12704A'; ellipse(x, cx, cy, 220 * u * s, 52 * u * s); x.fill();
-      glow(x, cx, cy, 200 * u * s, [140, 255, 190], 0.18);
-      x.strokeStyle = 'rgba(214,170,90,0.9)'; x.lineWidth = 9 * u * s; ellipse(x, cx, cy, 220 * u * s, 52 * u * s); x.stroke();
-      x.fillStyle = '#E8BE62'; x.beginPath(); x.moveTo(cx - 36 * u * s, lamp); x.lineTo(cx + 36 * u * s, lamp); x.lineTo(cx + 22 * u * s, lamp - 34 * u * s); x.lineTo(cx - 22 * u * s, lamp - 34 * u * s); x.closePath(); x.fill();
-      glow(x, cx, lamp, 120 * u * s, [255, 230, 170], 0.7);
-      lights.push([cx, lamp, s, [255, 230, 170]]);
-      for (let k = 0; k < 6; k++) lights.push([cx + (r() - 0.5) * 360 * u * s, cy + (r() - 0.5) * 60 * u * s, 0.6, [150, 255, 200]]);
-    }
-    const b = blurCanvas(c, 22 * u), bx = b.getContext('2d');
-    free(c);
-    for (const L of lights) bokeh(bx, L[0], L[1], (16 + r() * 30) * u * L[2], L[3], 0.2 + r() * 0.3);
-    for (let k = 0; k < 40; k++) {
-      const col = [[255, 220, 150], [170, 255, 200], [255, 245, 220]][Math.floor(r() * 3)];
-      bokeh(bx, r() * W, H * (0.04 + r() * 0.55), (10 + r() * 40) * u, col, 0.07 + r() * 0.18);
-    }
-    vignette(bx, W, H, 0.5);
-
-    // the table the guests stand behind, in front of them
-    const f = mk(W, H), fx = f.getContext('2d'), top = H * 0.8, R = W * 1.6;
-    const cyR = top + R * 0.5;
-    fx.save();
-    fx.beginPath(); fx.ellipse(W / 2, cyR, R, R * 0.5, 0, 0, TAU); fx.clip();
-    fx.fillStyle = lg(fx, 0, top, 0, H, [[0, '#14774D'], [0.5, '#0E5A3A'], [1, '#08361F']]); fx.fillRect(0, top - 10 * u, W, H - top + 10 * u);
-    fx.globalAlpha = 0.06; fx.fillStyle = '#000';
-    for (let k = 0; k < 2400 * u * u + 300; k++) fx.fillRect(r() * W, top + r() * (H - top), 2 * u, 2 * u);
-    fx.globalAlpha = 1;
-    fx.strokeStyle = 'rgba(232,198,120,0.75)'; fx.lineWidth = 4 * u;
-    fx.beginPath(); fx.ellipse(W / 2, cyR + 70 * u, R * 0.96, R * 0.5 - 20 * u, 0, Math.PI * 1.1, Math.PI * 1.9); fx.stroke();
-    fx.restore();
-    // padded rail
-    fx.save();
-    fx.lineWidth = 46 * u; fx.strokeStyle = '#1E120B';
-    fx.beginPath(); fx.ellipse(W / 2, cyR, R, R * 0.5, 0, Math.PI * 1.05, Math.PI * 1.95); fx.stroke();
-    fx.lineWidth = 10 * u; fx.strokeStyle = 'rgba(255,220,180,0.22)';
-    fx.beginPath(); fx.ellipse(W / 2, cyR - 12 * u, R, R * 0.5, 0, Math.PI * 1.05, Math.PI * 1.95); fx.stroke();
-    fx.lineWidth = 3 * u; fx.strokeStyle = 'rgba(214,170,90,0.9)';
-    fx.beginPath(); fx.ellipse(W / 2, cyR + 24 * u, R, R * 0.5, 0, Math.PI * 1.05, Math.PI * 1.95); fx.stroke();
-    fx.restore();
-    // chips and cards on the felt
-    const by = H - (H - top) * 0.28;
-    chipStack(fx, W * 0.74, by, 54 * u, 9, 'red');
-    chipStack(fx, W * 0.86, by + 28 * u, 54 * u, 6, 'black');
-    chipStack(fx, W * 0.64, by + 44 * u, 50 * u, 4, 'gold');
-    chipStack(fx, W * 0.93, by - 40 * u, 46 * u, 3, 'purple');
-    playingCard(fx, W * 0.16, by + 8 * u, 120 * u, -0.22, 'A', '♠', 0.62);
-    playingCard(fx, W * 0.27, by + 18 * u, 120 * u, 0.16, 'K', '♥', 0.62);
-    chipFace(fx, W * 0.42, by + 70 * u, 48 * u, 16 * u, 'green');
-    return { bg: b, fg: f };
-  },
-
-  velvet(W, H) {
-    const u = W / 1080, r = rng(5), c = mk(W, H), x = c.getContext('2d');
-    const dark = [46, 3, 8], mid = [134, 13, 26], hi = [222, 70, 70];
-    const g = x.createLinearGradient(0, 0, W, 0), N = 160;
-    for (let i = 0; i <= N; i++) {
-      const t = i / N;
-      const v = clamp(0.5 + 0.34 * Math.sin(t * TAU * 6.5 + 0.7) + 0.13 * Math.sin(t * TAU * 13.7 + 2.1) + 0.05 * Math.sin(t * TAU * 29 + 0.3), 0, 1);
-      g.addColorStop(t, rgba(v < 0.5 ? mix(dark, mid, v * 2) : mix(mid, hi, (v - 0.5) * 2), 1));
-    }
-    x.fillStyle = g; x.fillRect(0, 0, W, H);
-    for (let k = 0; k < 1400; k++) {
-      x.fillStyle = r() < 0.5 ? 'rgba(255,150,150,0.035)' : 'rgba(0,0,0,0.06)';
-      x.fillRect(r() * W, r() * H, 1.6 * u, (40 + r() * 160) * u);
-    }
-    x.fillStyle = lg(x, 0, 0, 0, H, [[0, 'rgba(0,0,0,0.6)'], [0.25, 'rgba(0,0,0,0.05)'], [0.7, 'rgba(0,0,0,0.12)'], [1, 'rgba(0,0,0,0.65)']]);
-    x.fillRect(0, 0, W, H);
-    glow(x, W * 0.5, H * 0.42, W * 0.62, [255, 120, 90], 0.34, 'screen');
-    // swagged valance with gold fringe
-    const n = 3, sw = W / n, vh = Math.max(H * 0.1, 120 * u);
-    for (let k = 0; k < n; k++) {
-      const x0 = k * sw, x1 = x0 + sw, mx = (x0 + x1) / 2;
-      x.save(); x.shadowColor = 'rgba(0,0,0,0.6)'; x.shadowBlur = 30 * u; x.shadowOffsetY = 12 * u;
-      x.fillStyle = lg(x, 0, 0, 0, vh * 1.3, [[0, '#3A0408'], [0.6, '#8C1020'], [1, '#C53A3D']]);
-      x.beginPath(); x.moveTo(x0, 0); x.lineTo(x1, 0); x.lineTo(x1, vh * 0.45); x.quadraticCurveTo(mx, vh * 1.6, x0, vh * 0.45); x.closePath(); x.fill();
-      x.restore();
-      x.strokeStyle = 'rgba(255,160,150,0.18)'; x.lineWidth = 6 * u;
-      for (const t of [0.35, 0.6, 0.82]) { x.beginPath(); x.moveTo(x0, vh * 0.45 * t); x.quadraticCurveTo(mx, vh * 1.6 * t, x1, vh * 0.45 * t); x.stroke(); }
-      for (let j = 0; j <= 60; j++) {
-        const t = j / 60, px = (1 - t) * (1 - t) * x0 + 2 * (1 - t) * t * mx + t * t * x1, py = (1 - t) * (1 - t) * vh * 0.45 + 2 * (1 - t) * t * vh * 1.6 + t * t * vh * 0.45;
-        x.strokeStyle = j % 2 ? '#E9C670' : '#A9822F'; x.lineWidth = 3.4 * u;
-        x.beginPath(); x.moveTo(px, py - 4 * u); x.lineTo(px, py + 22 * u); x.stroke();
-      }
-    }
-    for (let k = 1; k < n; k++) {
-      const px = k * sw;
-      x.fillStyle = rg(x, px - 6 * u, vh * 0.5 - 6 * u, 0, 26 * u, [[0, '#FFF0B8'], [1, '#9C7426']]);
-      x.beginPath(); x.arc(px, vh * 0.5, 22 * u, 0, TAU); x.fill();
-      x.fillStyle = lg(x, px - 20 * u, 0, px + 20 * u, 0, [[0, '#8E6A22'], [0.5, '#F3D88A'], [1, '#8E6A22']]);
-      x.beginPath(); x.moveTo(px - 8 * u, vh * 0.5 + 18 * u); x.lineTo(px + 8 * u, vh * 0.5 + 18 * u); x.lineTo(px + 26 * u, vh * 0.5 + 120 * u); x.lineTo(px - 26 * u, vh * 0.5 + 120 * u); x.closePath(); x.fill();
-    }
-    const b = blurCanvas(c, 2.5 * u), bx = b.getContext('2d');
-    free(c);
-    vignette(bx, W, H, 0.45);
-    return { bg: b };
-  },
-
-  deco(W, H) {
-    const u = W / 1080, c = mk(W, H), x = c.getContext('2d'), cx = W / 2, cy = H * 0.62;
-    x.fillStyle = rg(x, cx, H * 0.45, 0, Math.max(W, H) * 0.8, [[0, '#172821'], [0.55, '#0A120E'], [1, '#040605']]);
-    x.fillRect(0, 0, W, H);
-    const foil = () => lg(x, 0, 0, W, H, [[0, '#7D5C22'], [0.22, '#F3DC95'], [0.42, '#B48A36'], [0.62, '#FFF0BF'], [0.8, '#B48A36'], [1, '#8A6A2C']]);
-    // sunburst
-    x.save(); x.strokeStyle = foil(); x.globalAlpha = 0.45;
-    for (let k = 0; k <= 48; k++) {
-      const a = Math.PI + k / 48 * Math.PI;
-      x.lineWidth = (k % 2 ? 1.6 : 3) * u;
-      x.beginPath(); x.moveTo(cx + Math.cos(a) * 250 * u, cy + Math.sin(a) * 250 * u); x.lineTo(cx + Math.cos(a) * W * 1.4, cy + Math.sin(a) * W * 1.4); x.stroke();
-    }
-    x.restore();
-    // stepped arcs behind the guests
-    x.save(); x.strokeStyle = foil();
-    for (const [rad, lw] of [[250, 12], [282, 3], [350, 3], [372, 1.5], [452, 7], [478, 1.5], [560, 2]]) {
-      x.lineWidth = lw * u; x.beginPath(); x.arc(cx, cy, rad * u, Math.PI, TAU); x.stroke();
-    }
-    x.restore();
-    // stepped Art Deco frame
-    const stepped = (x0, y0, x1, y1, s) => {
-      x.beginPath();
-      x.moveTo(x0 + 2 * s, y0); x.lineTo(x1 - 2 * s, y0); x.lineTo(x1 - 2 * s, y0 + s); x.lineTo(x1 - s, y0 + s); x.lineTo(x1 - s, y0 + 2 * s); x.lineTo(x1, y0 + 2 * s);
-      x.lineTo(x1, y1 - 2 * s); x.lineTo(x1 - s, y1 - 2 * s); x.lineTo(x1 - s, y1 - s); x.lineTo(x1 - 2 * s, y1 - s); x.lineTo(x1 - 2 * s, y1);
-      x.lineTo(x0 + 2 * s, y1); x.lineTo(x0 + 2 * s, y1 - s); x.lineTo(x0 + s, y1 - s); x.lineTo(x0 + s, y1 - 2 * s); x.lineTo(x0, y1 - 2 * s);
-      x.lineTo(x0, y0 + 2 * s); x.lineTo(x0 + s, y0 + 2 * s); x.lineTo(x0 + s, y0 + s); x.lineTo(x0 + 2 * s, y0 + s); x.closePath();
-    };
-    x.save(); x.strokeStyle = foil();
-    x.lineWidth = 5 * u; stepped(56 * u, 56 * u, W - 56 * u, H - 56 * u, 28 * u); x.stroke();
-    x.lineWidth = 1.6 * u; stepped(74 * u, 74 * u, W - 74 * u, H - 74 * u, 22 * u); x.stroke();
-    // corner fans
-    for (const [px, py, a0] of [[56 * u, 56 * u, 0], [W - 56 * u, 56 * u, Math.PI / 2], [W - 56 * u, H - 56 * u, Math.PI], [56 * u, H - 56 * u, Math.PI * 1.5]]) {
-      for (let k = 1; k <= 3; k++) { x.lineWidth = 2 * u; x.beginPath(); x.arc(px, py, (40 + k * 22) * u, a0, a0 + Math.PI / 2); x.stroke(); }
-      for (let k = 0; k <= 4; k++) { const a = a0 + k / 4 * Math.PI / 2; x.lineWidth = 1.4 * u; x.beginPath(); x.moveTo(px + Math.cos(a) * 40 * u, py + Math.sin(a) * 40 * u); x.lineTo(px + Math.cos(a) * 106 * u, py + Math.sin(a) * 106 * u); x.stroke(); }
-    }
-    x.restore();
-    // diamonds at the middle of each side
-    x.fillStyle = foil();
-    for (const [px, py] of [[W / 2, 56 * u], [56 * u, H / 2], [W - 56 * u, H / 2]]) { x.beginPath(); x.moveTo(px, py - 16 * u); x.lineTo(px + 16 * u, py); x.lineTo(px, py + 16 * u); x.lineTo(px - 16 * u, py); x.closePath(); x.fill(); }
-    vignette(x, W, H, 0.35);
-    return { bg: c };
-  },
-
-  jackpot(W, H) {
-    const u = W / 1080, r = rng(77), c = mk(W, H), x = c.getContext('2d'), cx = W / 2, cy = H * 0.36;
-    x.fillStyle = rg(x, cx, cy, 0, Math.max(W, H) * 0.85, [[0, '#FFF1B8'], [0.16, '#F4C55A'], [0.5, '#B97A19'], [1, '#3A2004']]);
-    x.fillRect(0, 0, W, H);
-    x.save(); x.globalCompositeOperation = 'screen'; x.fillStyle = 'rgba(255,240,190,0.11)';
-    for (let k = 0; k < 28; k += 2) {
-      const a0 = k / 28 * TAU, a1 = (k + 1) / 28 * TAU, R = Math.max(W, H) * 1.5;
-      x.beginPath(); x.moveTo(cx, cy); x.lineTo(cx + Math.cos(a0) * R, cy + Math.sin(a0) * R); x.lineTo(cx + Math.cos(a1) * R, cy + Math.sin(a1) * R); x.closePath(); x.fill();
-    }
-    x.restore();
-    const item = (ctx, px, py, s) => {
-      const k = r();
-      if (k < 0.5) coin(ctx, px, py, s, r() * TAU, 0.4 + r() * 0.6);
-      else if (k < 0.8) { ctx.save(); ctx.translate(px, py); ctx.rotate(r() * TAU); chipFace(ctx, 0, 0, s, s * (0.4 + r() * 0.6), ['red', 'black', 'purple', 'green'][Math.floor(r() * 4)]); ctx.restore(); }
-      else playingCard(ctx, px, py, s * 1.2, r() * TAU, ['A', 'K', 'Q', 'J'][Math.floor(r() * 4)], ['♠', '♥', '♦', '♣'][Math.floor(r() * 4)]);
-    };
-    const back = mk(W, H), bk = back.getContext('2d');
-    for (let k = 0; k < 42; k++) item(bk, r() * W, r() * H * 0.95, (24 + r() * 34) * u);
-    const bb = blurCanvas(back, 4 * u, true);
-    free(back);
-    x.drawImage(bb, 0, 0); free(bb);
-    for (let k = 0; k < 60; k++) bokeh(x, r() * W, r() * H, (6 + r() * 30) * u, [255, 248, 220], 0.12 + r() * 0.3);
-    vignette(x, W, H, 0.3);
-    // big pieces close to the camera, out of focus, plus sharp confetti
-    const f = mk(W, H), fx = f.getContext('2d');
-    const spots = [[0.04, 0.1, 0], [0.95, 0.06, 1], [0.97, 0.5, 0], [0.03, 0.62, 1], [0.92, 0.95, 0]];
-    for (const [sx, sy, kind] of spots) {
-      const s = (60 + r() * 40) * u;
-      if (kind) coin(fx, sx * W, sy * H, s, r() * TAU, 0.5 + r() * 0.4);
-      else { fx.save(); fx.translate(sx * W, sy * H); fx.rotate(r() * TAU); chipFace(fx, 0, 0, s, s * (0.5 + r() * 0.4), ['red', 'black', 'purple'][Math.floor(r() * 3)]); fx.restore(); }
-    }
-    const fb = blurCanvas(f, 3.5 * u, true), fbx = fb.getContext('2d');
-    free(f);
-    const conf = ['#FFE7A0', '#D9A93E', '#FFFFFF', '#C8372D', '#F3D98B'];
-    for (let k = 0; k < 90; k++) {
-      const px = r() * W, py = r() * H;
-      if (Math.abs(px - W / 2) < W * 0.26 && py > H * 0.12 && py < H * 0.9 && r() < 0.85) continue;
-      const s = (10 + r() * 16) * u;
-      fbx.save(); fbx.translate(px, py); fbx.rotate(r() * Math.PI); fbx.fillStyle = conf[Math.floor(r() * conf.length)];
-      fbx.fillRect(-s / 2, -s / 5, s, s / 2.5); fbx.restore();
-    }
-    return { bg: c, fg: fb };
-  },
-
-  balloon(W, H) {
-    const u = W / 1080, r = rng(3), c = mk(W, H), x = c.getContext('2d');
-    // gold sequin wall
-    x.fillStyle = '#21180B'; x.fillRect(0, 0, W, H);
-    const s = 15 * u, rad = 6.6 * u;
-    for (let yy = 0, row = 0; yy < H + s; yy += s * 0.87, row++) {
-      for (let xx = (row % 2) * s / 2; xx < W + s; xx += s) {
-        const v = r();
-        x.fillStyle = rgba(mix([66, 48, 22], [214, 176, 98], Math.pow(v, 1.7)), 1);
-        x.beginPath(); x.arc(xx, yy, rad, 0, TAU); x.fill();
-        if (v > 0.94) { x.fillStyle = 'rgba(255,248,226,0.9)'; x.beginPath(); x.arc(xx - rad * 0.25, yy - rad * 0.25, rad * 0.45, 0, TAU); x.fill(); }
-      }
-    }
-    const wall = blurCanvas(c, 1.6 * u), wx = wall.getContext('2d');
-    free(c);
-    glow(wx, W / 2, H * 0.42, W * 0.7, [255, 220, 160], 0.22, 'screen');
-    for (let k = 0; k < 70; k++) bokeh(wx, r() * W, r() * H, (4 + r() * 14) * u, [255, 244, 214], 0.25 + r() * 0.4);
-    vignette(wx, W, H, 0.55);
-    // balloon garland arching over the guests
-    const kinds = ['black', 'black', 'black', 'gold', 'gold', 'gold', 'pearl', 'pearl', 'champagne', 'red'];
-    const pick = () => kinds[Math.floor(r() * kinds.length)];
-    const bez = (p, t) => { const m = 1 - t; return [m * m * m * p[0][0] + 3 * m * m * t * p[1][0] + 3 * m * t * t * p[2][0] + t * t * t * p[3][0], m * m * m * p[0][1] + 3 * m * m * t * p[1][1] + 3 * m * t * t * p[2][1] + t * t * t * p[3][1]]; };
-    const legL = [[0.04 * W, 1.04 * H], [-0.02 * W, 0.5 * H], [0.04 * W, 0.08 * H], [0.42 * W, 0.05 * H]];
-    const legR = [[0.42 * W, 0.05 * H], [0.84 * W, 0.02 * H], [1.02 * W, 0.26 * H], [0.97 * W, 1.04 * H]];
-    const back = [], front = [];
-    for (const [leg, flip] of [[legL, 0], [legR, 1]]) {
-      for (let k = 0; k < 40; k++) {
-        const t = k / 39, [px, py] = bez(leg, t), size = r();
-        const radius = (size < 0.45 ? 76 + r() * 26 : size < 0.85 ? 50 + r() * 14 : 28 + r() * 8) * u;
-        const b = [px + (r() - 0.5) * 110 * u, py + (r() - 0.5) * 100 * u, radius, pick(), (r() - 0.5) * 0.6];
-        const lowEnd = flip ? t > 0.72 : t < 0.22;
-        (lowEnd && r() < 0.6 ? front : back).push(b);
-      }
-    }
-    // small fillers first, so they peek out from between the big ones
-    const draw = (ctx, list) => {
-      list.sort((a, b) => a[2] - b[2]);
-      ctx.save(); ctx.shadowColor = 'rgba(0,0,0,0.45)'; ctx.shadowBlur = 24 * u; ctx.shadowOffsetX = 6 * u; ctx.shadowOffsetY = 16 * u;
-      for (const b of list) balloon(ctx, ...b);
-      ctx.restore();
-    };
-    draw(wx, back);
-    const f = mk(W, H), fx = f.getContext('2d');
-    draw(fx, front);
-    return { bg: wall, fg: f };
-  },
-};
-
-function balloon(x, cx, cy, r, kind, rot) {
-  x.save(); x.translate(cx, cy); x.rotate(rot);
-  const ry = r * 1.07;
-  const pal = {
-    black: [[86, 86, 96], [24, 24, 28], [6, 6, 8]],
-    pearl: [[255, 252, 246], [226, 218, 204], [150, 140, 126]],
-    champagne: [[250, 226, 186], [210, 170, 116], [118, 84, 48]],
-    red: [[236, 84, 84], [172, 18, 32], [72, 4, 12]],
-  };
-  if (kind === 'gold') {
-    x.fillStyle = lg(x, -r, -ry, r, ry, [[0, '#FFF4C8'], [0.22, '#E0B04A'], [0.42, '#7A5310'], [0.58, '#F2D07A'], [0.78, '#9A6C1C'], [1, '#4A3008']]);
-    ellipse(x, 0, 0, r, ry); x.fill();
-    x.shadowColor = 'transparent';
-    x.fillStyle = rg(x, 0, 0, r * 0.6, r * 1.1, [[0, 'rgba(0,0,0,0)'], [1, 'rgba(40,24,4,0.55)']]);
-    ellipse(x, 0, 0, r, ry); x.fill();
-  } else {
-    const [hi, mid, edge] = pal[kind];
-    x.fillStyle = rg(x, -r * 0.35, -ry * 0.4, 0, r * 1.5, [[0, rgba(hi, 1)], [0.42, rgba(mid, 1)], [0.82, rgba(mix(mid, edge, 0.6), 1)], [1, rgba(edge, 1)]]);
-    ellipse(x, 0, 0, r, ry); x.fill();
-    x.shadowColor = 'transparent';
+const BG_IMG = {};
+let bgP = null;
+function loadBackgrounds() {
+  if (!bgP) {
+    bgP = Promise.all(BGS.map((b) => new Promise((res) => {
+      const im = new Image(); im.decoding = 'async';
+      im.onload = () => { BG_IMG[b.id] = im; res(); }; im.onerror = () => res(); im.src = `bg/${b.id}.jpg`;
+    })));
   }
-  // a soft window reflection, not a hard dot
-  x.fillStyle = rg(x, -r * 0.36, -ry * 0.42, 0, r * 0.5, [[0, `rgba(255,255,255,${kind === 'black' ? 0.5 : 0.42})`], [0.5, `rgba(255,255,255,${kind === 'black' ? 0.16 : 0.12})`], [1, 'rgba(255,255,255,0)']]);
-  ellipse(x, -r * 0.36, -ry * 0.42, r * 0.5, r * 0.36, -0.6); x.fill();
-  x.strokeStyle = 'rgba(255,255,255,0.1)'; x.lineWidth = r * 0.06;
-  x.beginPath(); x.ellipse(0, 0, r * 0.88, ry * 0.88, 0, 0.15, 1.25); x.stroke();
-  x.restore();
+  return bgP;
 }
-
-// ---------- caches (phones run out of canvas memory quickly) ----------
+// The photograph, scaled to cover W x H around its centre.
+function photoScene(id, W, H) {
+  const c = mk(W, H), x = c.getContext('2d'), im = BG_IMG[id];
+  if (!im) { x.fillStyle = '#17140F'; x.fillRect(0, 0, W, H); return { bg: c }; }
+  const k = Math.max(W / im.width, H / im.height), w = im.width * k, h = im.height * k;
+  x.imageSmoothingQuality = 'high'; x.drawImage(im, (W - w) / 2, (H - h) / 2, w, h);
+  return { bg: c };
+}
 const bigScenes = new Map(), smallScenes = new Map();
 function getScene(id, W, H) {
   const key = `${id}:${W}x${H}`, small = W * H < 200000, cache = small ? smallScenes : bigScenes;
   let s = cache.get(key);
   if (s) { cache.delete(key); cache.set(key, s); return s; }
-  const made = SCENES[id](W, H), wrap = blurCanvas(made.bg, W * 0.03);
+  const made = photoScene(id, W, H), wrap = blurCanvas(made.bg, W * 0.03);
   s = { bg: made.bg, fg: made.fg || null, wrapData: wrap.getContext('2d').getImageData(0, 0, W, H).data };
   if (wrap !== made.bg) free(wrap);
   cache.set(key, s);
@@ -1196,112 +808,78 @@ function renderPhoto(bgId, pw, ph, top) {
 }
 
 // ---------- frames ----------
-function goldText(x, y0, y1) { return lg(x, 0, y0, 0, y1, [[0, '#FBEAB0'], [0.5, '#E2BF6A'], [1, '#A47A2C']]); }
-function scriptText(x, text, cx, y, size, align = 'center') {
-  x.save(); x.font = `${size}px "Great Vibes", "Snell Roundhand", "Segoe Script", cursive`; x.textAlign = align; x.textBaseline = 'alphabetic';
-  x.shadowColor = 'rgba(0,0,0,0.55)'; x.shadowBlur = size * 0.16; x.shadowOffsetY = size * 0.04;
-  x.fillStyle = goldText(x, y - size * 0.75, y + size * 0.15); x.fillText(text, cx, y);
-  x.restore();
-}
-function hairline(x, X, Y, W, H) {
-  x.save(); x.strokeStyle = 'rgba(241,217,143,0.8)'; x.lineWidth = 2.5; x.strokeRect(X, Y, W, H);
-  x.lineWidth = 1; x.globalAlpha = 0.6; x.strokeRect(X + 9, Y + 9, W - 18, H - 18); x.restore();
-}
-function suitRow(x, cx, y, s, gap) {
-  ['♠', '♥', '♦', '♣'].forEach((su, i) => { x.fillStyle = su === '♥' || su === '♦' ? '#D2483D' : '#F4EFE1'; suitPath(x, su, cx + (i - 1.5) * gap, y, s); });
+const SERIF = '"Cormorant Garamond", Georgia, serif', SANS = '"Hiragino Sans", "Noto Sans JP", "Yu Gothic", "Segoe UI", sans-serif';
+const IVORY = '#F2ECDF', BRASS = '#CDB27D';
+function caps(x, text, cx, y, size, track, color, weight = 600) { x.fillStyle = color; spaced(x, text.toUpperCase(), cx, y, `${weight} ${size}px ${SERIF}`, size * track); }
+function titleCase(t) { return t.toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase()); }
+// A printer's burn: darkens toward one edge so light type reads, without a visible band.
+function burn(x, W, from, to, a) {
+  x.fillStyle = lg(x, 0, from, 0, to, [[0, 'rgba(8,6,4,0)'], [1, `rgba(8,6,4,${a})`]]);
+  x.fillRect(0, Math.min(from, to), W, Math.abs(to - from));
 }
 const FRAME_DRAW = {
   feed(x, photo, F) {
     const W = F.w, H = F.h;
     x.drawImage(photo, 0, 0);
-    x.fillStyle = lg(x, 0, H * 0.68, 0, H, [[0, 'rgba(0,0,0,0)'], [1, 'rgba(0,0,0,0.66)']]); x.fillRect(0, H * 0.68, W, H * 0.32);
-    hairline(x, 30, 30, W - 60, H - 60);
-    scriptText(x, CONFIG.school, W / 2, H - 126, 100);
-    x.fillStyle = '#F4EFE1'; spaced(x, `${CONFIG.event}  ·  ${dateStr()}`, W / 2, H - 70, '500 25px "Bodoni Moda", Georgia, serif', 6);
+    burn(x, W, H * 0.7, H, 0.6);
+    x.strokeStyle = 'rgba(242,236,223,0.4)'; x.lineWidth = 1.5; x.strokeRect(28, 28, W - 56, H - 56);
+    x.fillStyle = BRASS; x.fillRect(W / 2 - 36, H - 182, 72, 1.5);
+    caps(x, CONFIG.event, W / 2, H - 116, 44, 0.36, IVORY, 500);
+    caps(x, `${CONFIG.school}  ·  ${dateStr()}`, W / 2, H - 70, 19, 0.32, BRASS);
   },
+  // The type sits in the head room, clear of the top 15% where Instagram lays its own controls over a story.
   story(x, photo, F) {
     const W = F.w, H = F.h;
     x.drawImage(photo, 0, 0);
-    x.fillStyle = lg(x, 0, 0, 0, H * 0.3, [[0, 'rgba(0,0,0,0.6)'], [1, 'rgba(0,0,0,0)']]); x.fillRect(0, 0, W, H * 0.3);
-    x.fillStyle = lg(x, 0, H * 0.74, 0, H, [[0, 'rgba(0,0,0,0)'], [1, 'rgba(0,0,0,0.7)']]); x.fillRect(0, H * 0.74, W, H * 0.26);
-    hairline(x, 34, 34, W - 68, H - 68);
-    x.fillStyle = '#F4EFE1'; spaced(x, CONFIG.place, W / 2, 168, '600 26px "IBM Plex Mono", monospace', 10);
-    scriptText(x, CONFIG.school, W / 2, 318, 124);
-    suitRow(x, W / 2, H - 262, 30, 56);
-    x.fillStyle = goldText(x, H - 210, H - 160); spaced(x, CONFIG.event, W / 2, H - 162, '700 52px "Bodoni Moda", Georgia, serif', 16);
-    x.fillStyle = '#F4EFE1'; spaced(x, dateStr(), W / 2, H - 104, '500 26px "IBM Plex Mono", monospace', 8);
+    burn(x, W, H * 0.36, 0, 0.55);
+    burn(x, W, H * 0.8, H, 0.35);
+    caps(x, CONFIG.school, W / 2, 318, 21, 0.44, BRASS);
+    x.save(); x.fillStyle = IVORY; x.textAlign = 'center'; x.font = `italic 500 100px ${SERIF}`; x.fillText(titleCase(CONFIG.event), W / 2, 432); x.restore();
+    x.fillStyle = BRASS; x.fillRect(W / 2 - 36, 474, 72, 1.5);
+    caps(x, dateStr(), W / 2, 524, 21, 0.44, IVORY);
   },
   post(x, photo, F) {
-    const W = F.w, H = F.h, sans = '"Hiragino Sans", "Noto Sans JP", "Yu Gothic", "Segoe UI", sans-serif';
+    const W = F.w, H = F.h;
     x.fillStyle = '#FFFFFF'; x.fillRect(0, 0, W, H);
-    // header: felt green with the school name in script
-    x.fillStyle = lg(x, 0, 0, 0, 180, [[0, '#145238'], [1, '#0B2E20']]); x.fillRect(0, 0, W, 180);
-    x.fillStyle = 'rgba(212,175,90,0.7)'; x.fillRect(0, 176, W, 4);
-    scriptText(x, CONFIG.school, 52, 126, 92, 'left');
-    chipIcon(x, W - 96, 90, 46);
-    // account row
-    x.fillStyle = lg(x, 40, 196, 128, 284, [[0, '#F7E3A4'], [1, '#A47A2C']]); x.beginPath(); x.arc(84, 240, 46, 0, TAU); x.fill();
-    x.fillStyle = '#0F3D2B'; x.beginPath(); x.arc(84, 240, 39, 0, TAU); x.fill();
-    x.fillStyle = '#E2BF6A'; suitPath(x, '♠', 84, 241, 44);
-    x.textAlign = 'left'; x.fillStyle = '#111'; x.font = `700 34px ${sans}`; x.fillText(CONFIG.account, 152, 232);
-    x.fillStyle = '#8E8E8E'; x.font = `400 25px ${sans}`; x.fillText(CONFIG.place, 152, 270);
-    x.textAlign = 'right'; x.fillText(dateStr(), W - 48, 252); x.textAlign = 'left';
+    // top bar: the event name where an app would put its own
+    caps(x, CONFIG.event, W / 2, 112, 34, 0.32, '#111111', 600);
+    x.fillStyle = '#E6E6E6'; x.fillRect(0, 168, W, 1.5);
+    // account row: a monogram, like a real venue's account
+    x.fillStyle = '#111111'; x.beginPath(); x.arc(84, 236, 42, 0, TAU); x.fill();
+    x.fillStyle = IVORY; x.textAlign = 'center'; x.font = `500 38px ${SERIF}`; x.fillText('CN', 84, 249);
+    x.textAlign = 'left'; x.fillStyle = '#111'; x.font = `700 32px ${SANS}`; x.fillText(CONFIG.account, 150, 228);
+    x.fillStyle = '#8E8E8E'; x.font = `400 24px ${SANS}`; x.fillText(CONFIG.place, 150, 266);
+    x.fillStyle = '#111'; [0, 1, 2].forEach((k) => { x.beginPath(); x.arc(W - 96 + k * 18, 240, 4.5, 0, TAU); x.fill(); });
     // the photo
     x.drawImage(photo, F.px, F.py);
-    // actions
+    // actions: heart, comment, share, save
     const ay = F.py + F.ph + 62;
-    x.fillStyle = '#ED4956'; suitPath(x, '♥', 82, ay + 2, 74);
-    x.strokeStyle = '#111'; x.lineWidth = 5.5; x.lineCap = 'round'; x.lineJoin = 'round';
-    x.beginPath(); x.arc(190, ay, 27, 0.75 * Math.PI, 2.55 * Math.PI); x.lineTo(166, ay + 30); x.closePath(); x.stroke();
-    x.beginPath(); x.moveTo(266, ay - 26); x.lineTo(322, ay - 26); x.lineTo(292, ay + 28); x.lineTo(286, ay - 2); x.closePath(); x.moveTo(266, ay - 26); x.lineTo(286, ay - 2); x.stroke();
-    x.beginPath(); x.moveTo(W - 104, ay - 28); x.lineTo(W - 60, ay - 28); x.lineTo(W - 60, ay + 30); x.lineTo(W - 82, ay + 12); x.lineTo(W - 104, ay + 30); x.closePath(); x.stroke();
-    [0, 1, 2].forEach((k) => { x.fillStyle = k ? '#C7C7C7' : '#3897F0'; x.beginPath(); x.arc(W / 2 + (k - 1) * 22, ay, 7, 0, TAU); x.fill(); });
+    x.strokeStyle = '#111'; x.lineWidth = 5; x.lineCap = 'round'; x.lineJoin = 'round';
+    x.save(); x.translate(82, ay + 2); x.scale(0.62, 0.62); x.fillStyle = '#ED4956'; suitPath(x, '♥', 0, 0, 96); x.restore();
+    x.beginPath(); x.arc(186, ay, 26, 0.75 * Math.PI, 2.55 * Math.PI); x.lineTo(164, ay + 28); x.closePath(); x.stroke();
+    x.beginPath(); x.moveTo(262, ay - 24); x.lineTo(316, ay - 24); x.lineTo(288, ay + 26); x.lineTo(282, ay - 2); x.closePath(); x.moveTo(262, ay - 24); x.lineTo(282, ay - 2); x.stroke();
+    x.beginPath(); x.moveTo(W - 102, ay - 26); x.lineTo(W - 60, ay - 26); x.lineTo(W - 60, ay + 28); x.lineTo(W - 81, ay + 11); x.lineTo(W - 102, ay + 28); x.closePath(); x.stroke();
     // likes and caption
-    x.fillStyle = '#111'; x.font = `700 32px ${sans}`; x.fillText(`いいね！ ${CONFIG.likes}件`, 48, ay + 92);
-    x.font = `700 31px ${sans}`; x.fillText(CONFIG.account, 48, ay + 146);
+    x.fillStyle = '#111'; x.font = `700 31px ${SANS}`; x.fillText(`いいね！ ${CONFIG.likes}件`, 48, ay + 92);
+    x.font = `700 30px ${SANS}`; x.fillText(CONFIG.account, 48, ay + 144);
     const uw = x.measureText(CONFIG.account).width;
-    x.font = `400 31px ${sans}`; x.fillText(' ' + CONFIG.caption, 48 + uw, ay + 146);
-    x.fillStyle = '#1D4E89'; x.fillText(CONFIG.tags, 48, ay + 192);
-    x.fillStyle = '#8E8E8E'; x.font = `400 24px ${sans}`; x.fillText('たった今', 48, ay + 236);
-    // bottom bar
-    const ny = H - 150;
-    x.fillStyle = '#121212'; x.fillRect(0, ny, W, 150);
-    navIcons(x, W, ny + 75);
+    x.font = `400 30px ${SANS}`; x.fillText(' ' + CONFIG.caption, 48 + uw, ay + 144);
+    x.fillStyle = '#00376B'; x.fillText(CONFIG.tags, 48, ay + 190);
+    x.fillStyle = '#8E8E8E'; x.font = `400 23px ${SANS}`; x.fillText('たった今', 48, ay + 234);
   },
 };
-function chipIcon(x, cx, cy, r) {
-  x.save();
-  x.fillStyle = '#E2BF6A'; x.beginPath(); x.arc(cx, cy, r, 0, TAU); x.fill();
-  x.fillStyle = '#0F3D2B';
-  for (let k = 0; k < 8; k++) { const a = k / 8 * TAU; x.save(); x.translate(cx + Math.cos(a) * r * 0.82, cy + Math.sin(a) * r * 0.82); x.rotate(a); x.fillRect(-r * 0.12, -r * 0.1, r * 0.24, r * 0.2); x.restore(); }
-  x.beginPath(); x.arc(cx, cy, r * 0.58, 0, TAU); x.fill();
-  x.fillStyle = '#E2BF6A'; suitPath(x, '♠', cx, cy + 1, r * 0.7);
-  x.restore();
-}
-function navIcons(x, W, cy) {
-  const xs = [0.1, 0.3, 0.5, 0.7, 0.9].map((f) => f * W);
-  x.save(); x.strokeStyle = '#FFFFFF'; x.fillStyle = '#FFFFFF'; x.lineWidth = 5; x.lineCap = 'round'; x.lineJoin = 'round';
-  let p = xs[0];
-  x.beginPath(); x.moveTo(p - 30, cy - 2); x.lineTo(p, cy - 30); x.lineTo(p + 30, cy - 2); x.moveTo(p - 22, cy - 8); x.lineTo(p - 22, cy + 28); x.lineTo(p + 22, cy + 28); x.lineTo(p + 22, cy - 8); x.stroke();
-  p = xs[1];
-  x.beginPath(); x.arc(p - 6, cy - 6, 22, 0, TAU); x.moveTo(p + 10, cy + 10); x.lineTo(p + 30, cy + 30); x.stroke();
-  p = xs[2];
-  x.fillStyle = '#D4AF5A'; rr(x, p - 40, cy - 40, 80, 80, 18); x.fill();
-  x.strokeStyle = '#121212'; x.lineWidth = 6; x.beginPath(); x.arc(p, cy, 18, 0, TAU); x.stroke();
-  x.fillStyle = '#121212'; x.beginPath(); x.arc(p + 24, cy - 24, 5, 0, TAU); x.fill();
-  x.strokeStyle = '#FFFFFF'; x.lineWidth = 5;
-  p = xs[3];
-  x.save(); x.translate(p, cy); x.scale(0.62, 0.62); x.fillStyle = '#FFFFFF'; suitPath(x, '♥', 0, 2, 96); x.fillStyle = '#121212'; suitPath(x, '♥', 0, 2, 72); x.restore();
-  p = xs[4];
-  x.beginPath(); x.arc(p, cy - 12, 15, 0, TAU); x.stroke();
-  x.beginPath(); x.arc(p, cy + 34, 30, Math.PI * 1.15, Math.PI * 1.85); x.stroke();
-  x.restore();
-}
 function composeImage(bgId, frameId) {
   const F = FRAMES[frameId], photo = renderPhoto(bgId, F.pw, F.ph, F.top);
   const out = mk(F.w, F.h), x = out.getContext('2d');
   FRAME_DRAW[frameId](x, photo, F);
   free(photo);
+  const credit = state.cut && (BGS.find((b) => b.id === bgId) || {}).credit;
+  if (credit) {
+    const post = frameId === 'post';
+    x.save(); x.font = `400 15px ${SANS}`; x.textAlign = 'right';
+    x.fillStyle = post ? 'rgba(255,255,255,0.75)' : 'rgba(242,236,223,0.5)';
+    x.fillText(credit, post ? F.px + F.pw - 12 : F.w - 12, post ? F.py + F.ph - 12 : F.h - 10); x.restore();
+  }
   return out;
 }
 
@@ -1325,7 +903,6 @@ async function startCamera() {
   return video.videoWidth >= 16 ? 'ok' : 'failed';
 }
 function stopCamera() {
-  stopLive();
   if (state.stream) { state.stream.getTracks().forEach((t) => t.stop()); state.stream = null; }
   watchLight(false);
 }
@@ -1343,56 +920,6 @@ function watchLight(on) {
   }, 1000);
 }
 
-// Live preview: the people on the chosen background while they pose.
-const live = { on: false, raf: 0, last: 0, small: null, maskC: null, maskData: null, person: null };
-async function startLive() {
-  const vis = await withTimeout(loadSegmenter(), 25000), seg = vis && vis.seg;
-  if (!seg || !state.stream || live.on) {
-    if (!seg) note('背景のプレビューは使えません。撮影後に合成します。');
-    return;
-  }
-  try { await setSegMode(seg, 'VIDEO'); } catch (e) { note('背景のプレビューは使えません。撮影後に合成します。'); return; }
-  live.on = true; $('preview').hidden = false; note('');
-  const P = $('preview'), stage = $('stage'), dpr = Math.min(2, window.devicePixelRatio || 1);
-  P.width = Math.round(stage.clientWidth * dpr); P.height = Math.round(stage.clientHeight * dpr);
-  live.person = mk(P.width, P.height);
-  const step = () => {
-    if (!live.on) return;
-    live.raf = requestAnimationFrame(step);
-    const now = performance.now();
-    if (now - live.last < 40 || !video.videoWidth) return;
-    live.last = now;
-    const vw = video.videoWidth, vh = video.videoHeight, mirror = state.facing === 'user';
-    const sq = padded(video, 256, mirror, live.small), sw = sq.w, sh = sq.h;
-    live.small = sq.canvas;
-    if (!live.maskC || live.maskC.width !== sw || live.maskC.height !== sh) {
-      live.maskC = mk(sw, sh);
-      live.maskData = live.maskC.getContext('2d').createImageData(sw, sh);
-      live.maskData.data.fill(255);
-    }
-    let m = null;
-    try { m = maskFrom(seg.segmentForVideo(live.small, now)); } catch (e) { m = null; }
-    const W = P.width, H = P.height, px = P.getContext('2d'), k = Math.max(W / vw, H / vh), dw = vw * k, dh = vh * k, dx = (W - dw) / 2, dy = (H - dh) / 2;
-    const pc = live.person, pcx = pc.getContext('2d');
-    pcx.globalCompositeOperation = 'source-over'; pcx.clearRect(0, 0, W, H);
-    pcx.save(); if (mirror) { pcx.translate(W, 0); pcx.scale(-1, 1); } pcx.drawImage(video, dx, dy, dw, dh); pcx.restore();
-    if (state.bg === 'real' || !m) { px.drawImage(pc, 0, 0); return; }
-    const md = live.maskData.data;
-    for (let y = 0; y < sh; y++) for (let x = 0; x < sw; x++) {
-      const v = m.data[(y + sq.oy) * m.w + x + sq.ox];
-      md[(y * sw + x) * 4 + 3] = v < 0.3 ? 0 : v > 0.7 ? 255 : (v - 0.3) * 637;
-    }
-    live.maskC.getContext('2d').putImageData(live.maskData, 0, 0);
-    pcx.globalCompositeOperation = 'destination-in'; pcx.imageSmoothingQuality = 'high'; pcx.drawImage(live.maskC, dx, dy, dw, dh);
-    const sc = getScene(state.bg, W, H);
-    px.drawImage(sc.bg, 0, 0); px.drawImage(pc, 0, 0); if (sc.fg) px.drawImage(sc.fg, 0, 0);
-  };
-  step();
-}
-function stopLive() {
-  live.on = false; cancelAnimationFrame(live.raf);
-  $('preview').hidden = true;
-}
 function note(t) { const n = $('live-note'); n.textContent = t; n.hidden = !t; }
 
 function grabFrame() {
@@ -1427,7 +954,6 @@ async function shoot() {
   $('count').hidden = true; sfx.go();
   const f = $('flash'); f.classList.remove('go'); void f.offsetWidth; f.classList.add('go');
   sfx.shutter();
-  stopLive();
   const frames = [];
   for (let i = 0; i < CONFIG.burst; i++) { frames.push(grabFrame()); await sleep(70); }
   let best = frames[0], bs = -1;
@@ -1477,21 +1003,22 @@ for (const id of ['file-cam0', 'file-cam', 'file-lib']) {
 
 // ---------- developing and choosing ----------
 async function develop() {
-  show('s-work'); $('work-sub').textContent = 'AIが人を切り抜いています';
+  show('s-work'); $('work-sub').textContent = '人物を切り抜いています';
   const t0 = performance.now();
-  await loadFonts();
+  await Promise.all([loadFonts(), loadBackgrounds()]);
   if (state.cut) { free(state.cut.alphaCanvas); state.cut = null; }
   for (const cache of [bigScenes, smallScenes]) { for (const s of cache.values()) { free(s.bg); free(s.fg); } cache.clear(); }
   state.cutNote = '';
   state.cut = await cutOut(state.photo);
-  if (!state.cut && state.bg !== 'real') state.bg = 'real';
   $('work-sub').textContent = '背景を合わせています';
   await sleep(30);
   await renderResult();
   buildPickers();
   const ms = Math.round(performance.now() - t0);
+  // Timings stay in the console; visitors see a line only when the cut-out failed.
+  console.info(`cut ${state.cut ? state.cut.ms : '-'} ms, total ${ms} ms, ${state.mode}`);
   $('status').textContent = state.cut
-    ? `切り抜き ${state.cut.ms} ms ・ 全体 ${ms} ms ・ ${state.mode === 'live' ? 'ライブカメラ' : 'スマホのカメラ'}`
+    ? ''
     : `背景の合成は使えません（${state.cutNote || '理由不明'}）。${segLog.join(' / ')}`;
   show('s-result'); $('s-result').scrollTop = 0; sfx.done();
   fillThumbs();
@@ -1507,11 +1034,12 @@ async function renderResult() {
 }
 function buildPickers() {
   const row = $('bg-row'); row.textContent = '';
-  for (const b of BGS) {
+  // Without a cut-out the photo stays as taken, so there is no background to choose.
+  row.parentElement.hidden = !state.cut;
+  for (const b of state.cut ? BGS : []) {
     const btn = document.createElement('button');
     btn.type = 'button'; btn.className = 'bg-opt'; btn.dataset.bg = b.id;
     btn.setAttribute('aria-pressed', String(state.bg === b.id));
-    btn.disabled = !state.cut && b.id !== 'real';
     const cv = mk(144, 180); btn.appendChild(cv);
     const label = document.createElement('span'); label.textContent = b.ja; btn.appendChild(label);
     btn.addEventListener('click', () => choose({ bg: b.id }));
@@ -1576,33 +1104,19 @@ $('save').addEventListener('click', async () => {
 $('again').addEventListener('click', () => { if (state.mode === 'live') openCamera(); else openPick('choose'); });
 
 // ---------- start ----------
-function buildLiveChips() {
-  const row = $('live-bgs'); row.textContent = '';
-  for (const b of BGS) {
-    const btn = document.createElement('button');
-    btn.type = 'button'; btn.className = 'chip'; btn.textContent = b.ja;
-    btn.setAttribute('aria-pressed', String(state.bg === b.id));
-    btn.addEventListener('click', () => {
-      state.bg = b.id;
-      row.querySelectorAll('.chip').forEach((c) => c.setAttribute('aria-pressed', String(c === btn)));
-    });
-    row.appendChild(btn);
-  }
-}
 async function openCamera() {
-  show('s-camera'); buildLiveChips(); note('');
+  show('s-camera'); note('');
   $('shutter').disabled = true; $('flip-cam').disabled = true;
   const res = await startCamera();
   // Inside the Claude viewer the live camera is always refused; say so plainly instead of blaming a permission.
   if (res !== 'ok') { openPick(window.claude && res === 'denied' ? 'unsupported' : res); return; }
   state.mode = 'live'; watchLight(true);
   $('shutter').disabled = false; $('flip-cam').disabled = false;
-  startLive();
 }
 $('w-school').textContent = CONFIG.school;
 $('start').addEventListener('click', () => { audioOn(); loadFonts(); loadSegmenter(); openCamera(); });
 // Start the AI download while the visitor waits in line, not only after the tap.
-if (!FAST) setTimeout(() => { loadFonts(); loadSegmenter(); }, 300);
+if (!FAST) setTimeout(() => { loadFonts(); loadBackgrounds(); loadSegmenter(); }, 300);
 $('shutter').addEventListener('click', shoot);
 $('to-pick').addEventListener('click', () => { stopCamera(); openPick('choose'); });
 $('flip-cam').addEventListener('click', async () => { state.facing = state.facing === 'user' ? 'environment' : 'user'; await openCamera(); });
@@ -1625,7 +1139,7 @@ if (FAST) {
           mx.fillStyle = '#000'; mx.fillRect(0, 0, mc.width, mc.height); mx.drawImage(state.cut.alphaCanvas, 0, 0);
           window.__out.mask = await toBlob(mc); free(mc);
         }
-        const combos = BGS.map((b) => [b.id, 'feed']).concat([['salon', 'story'], ['balloon', 'story'], ['table', 'post'], ['velvet', 'post']]);
+        const combos = BGS.map((b) => [b.id, 'feed']).concat([['opera', 'story'], ['salon1900', 'story'], ['rouge', 'post'], ['mirrors', 'post']]);
         for (const [b, f] of combos) {
           const t = performance.now(), c = composeImage(b, f);
           window.__times[`${b}-${f}`] = Math.round(performance.now() - t);
@@ -1636,7 +1150,7 @@ if (FAST) {
         for (let k = 0; k < 80 && $('shutter').disabled && $('s-pick').hidden; k++) await sleep(100);
         await sleep(2500);
         if (!$('preview').hidden) window.__out.preview = await toBlob($('preview'));
-        window.__live = { on: live.on, note: $('live-note').textContent, video: video.videoWidth + 'x' + video.videoHeight };
+        window.__live = { note: $('live-note').textContent, video: video.videoWidth + 'x' + video.videoHeight };
         if (!$('shutter').disabled) await shoot();
         window.__out.result = state.blob;
       }
