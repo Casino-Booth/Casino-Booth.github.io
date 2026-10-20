@@ -10,54 +10,56 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Zen+Old+Mincho:wght@500;700&family=Noto+Sans+JP:wght@400;700&display=swap">
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
 <style>
-/* One A4 sheet, white for any printer; the QR points at this site (or at the address after # for a preview). */
+/* One A4 sheet on the booth's Art Deco backdrop (poster-bg.jpg, the "deco" scene at 300 dpi).
+   The QR sits in an arched ivory panel centred on the sunburst, whose centre is at 62% of the height.
+   The QR points at this site, or at the address after # for a preview. */
 @page { size: A4; margin: 0; }
-:root { --ink: #111; --gold: #9C8150; --soft: #555; }
+:root { --gold: #E3C47A; --ivory: #F4ECDA; }
 * { box-sizing: border-box; }
-html, body { margin: 0; background: #E9E6DF; color: var(--ink); font-family: "Noto Sans JP", sans-serif; }
-.sheet { width: 210mm; height: 297mm; margin: 0 auto; background: #FFF; padding: 12mm; position: relative; overflow: hidden; }
-.frame { position: absolute; inset: 9mm; border: 0.3mm solid var(--gold); }
-.inner { position: relative; height: 100%; display: flex; flex-direction: column; align-items: center; text-align: center; padding-top: 10mm; }
-.school { font-family: "Cormorant Garamond", serif; font-weight: 600; font-size: 4.6mm; letter-spacing: 2mm; text-transform: uppercase; color: var(--gold); }
-.title { font-family: "Cormorant Garamond", serif; font-weight: 500; font-size: 18mm; letter-spacing: 2.6mm; margin: 4mm 0 0; line-height: 1.05; }
-.eyebrow { font-family: "Cormorant Garamond", serif; font-weight: 600; font-size: 5mm; letter-spacing: 3.4mm; color: var(--gold); margin: 3mm 0 0; }
-.lead { font-family: "Zen Old Mincho", serif; font-weight: 500; font-size: 6.4mm; margin: 7mm 0 0; }
-.qr { width: 92mm; height: 92mm; margin-top: 6mm; }
+html, body { margin: 0; background: #2A2A2A; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.sheet { width: 210mm; height: 297mm; margin: 0 auto; position: relative; overflow: hidden; background: #060807; color: var(--ivory); font-family: "Noto Sans JP", sans-serif; }
+.bg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.head { position: absolute; left: 0; right: 0; top: 31mm; text-align: center; }
+.school { margin: 0; font-family: "Cormorant Garamond", serif; font-weight: 600; font-size: 4.4mm; letter-spacing: 2.2mm; text-transform: uppercase; color: var(--gold); }
+.title { margin: 4mm 0 0; font-family: "Cormorant Garamond", serif; font-weight: 500; font-size: 19mm; letter-spacing: 2.4mm; line-height: 1; color: var(--ivory); text-shadow: 0 0 5mm rgba(0, 0, 0, 0.9); }
+.eyebrow { margin: 5mm 0 0; font-family: "Cormorant Garamond", serif; font-weight: 600; font-size: 5mm; letter-spacing: 3.4mm; text-transform: uppercase; color: var(--gold); }
+.arch { position: absolute; left: 50%; top: 136mm; width: 96mm; height: 94mm; transform: translateX(-50%); background: #FBF6EA; border: 0.7mm solid var(--gold); border-radius: 48mm 48mm 1.5mm 1.5mm; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding-bottom: 5mm; }
+.qr { width: 62mm; height: 62mm; }
 .qr svg { width: 100%; height: 100%; display: block; }
-.url { font-size: 4.2mm; color: var(--soft); margin-top: 1mm; letter-spacing: 0.2mm; }
-ol { list-style: none; padding: 0; margin: 8mm 0 0; text-align: left; font-size: 6.2mm; font-weight: 700; }
-li { display: flex; align-items: center; gap: 4mm; margin: 0 0 3.5mm; }
-li b { flex: none; width: 9mm; height: 9mm; border: 0.3mm solid var(--ink); display: grid; place-items: center; font-family: "Cormorant Garamond", serif; font-weight: 600; font-size: 5.5mm; }
-.fine { margin-top: auto; padding-bottom: 6mm; font-size: 3.7mm; color: var(--soft); line-height: 1.7; }
-@media screen { body { padding: 16px 0; } .sheet { box-shadow: 0 2px 16px rgba(0,0,0,.25); } }
+.url { margin-top: 1mm; font-size: 3.6mm; letter-spacing: 0.2mm; color: #5A4A2A; }
+ol { position: absolute; left: 0; right: 0; top: 238mm; margin: 0 auto; padding: 0; width: 118mm; list-style: none; font-size: 5mm; font-weight: 700; }
+li { display: flex; align-items: center; gap: 4mm; margin: 0 0 2.2mm; }
+li b { flex: none; width: 7.5mm; height: 7.5mm; border: 0.3mm solid var(--gold); display: grid; place-items: center; font-family: "Cormorant Garamond", serif; font-weight: 600; font-size: 4.6mm; color: var(--gold); }
+.fine { position: absolute; left: 0; right: 0; top: 270mm; margin: 0; text-align: center; font-size: 3mm; line-height: 1.6; color: rgba(244, 236, 218, 0.75); }
+@media screen { body { padding: 16px 0; } .sheet { box-shadow: 0 2px 16px rgba(0, 0, 0, 0.4); } }
 @media screen and (max-width: 800px) { .sheet { zoom: 0.45; } }
-@media print { html, body { background: #FFF; } }
 </style>
 </head>
 <body>
 <div class="sheet">
-  <div class="frame"></div>
-  <div class="inner">
-    <div class="school">Keio High School</div>
-    <h1 class="title">CASINO NIGHT</h1>
-    <p class="eyebrow">PHOTO BOOTH</p>
-    <p class="lead">あなたのスマホで、カジノの一枚を。</p>
+  <img class="bg" src="poster-bg.jpg" alt="">
+  <div class="head">
+    <p class="school">Keio High School</p>
+    <h1 class="title">GRAND CASINO</h1>
+    <p class="eyebrow">Photo Booth</p>
+  </div>
+  <div class="arch">
     <div class="qr" id="qr"></div>
     <div class="url" id="url"></div>
-    <ol>
-      <li><b>1</b><span>スマホのカメラでQRコードを読み取る</span></li>
-      <li><b>2</b><span>「撮影をはじめる」を押して1枚撮る</span></li>
-      <li><b>3</b><span>背景とフレームを選んで保存</span></li>
-    </ol>
-    <p class="fine">アプリ不要・無料。写真はスマホの中だけで作られ、どこにも送られません。<br>
-      はじめに撮影用のデータ（<span id="size">約20MB</span>）を読み込みます。並んでいる間に開いておくと待たずに撮れます。</p>
   </div>
+  <ol>
+    <li><b>1</b><span>スマホのカメラでQRコードを読み取る</span></li>
+    <li><b>2</b><span>「撮影をはじめる」を押して1枚撮る</span></li>
+    <li><b>3</b><span>背景とフレームを選んで保存</span></li>
+  </ol>
+  <p class="fine">アプリ不要・無料。写真はスマホの中だけで作られ、どこにも送られません。<br>
+    はじめに撮影用のデータ（<span id="size">約20MB</span>）を読み込みます。並んでいる間に開いておくと待たずに撮れます。</p>
 </div>
 <script>
 const site = location.hash.length > 1 ? decodeURIComponent(location.hash.slice(1)) : location.origin + '/';
 const target = site + '?openExternalBrowser=1';
 const qr = qrcode(0, 'M'); qr.addData(target); qr.make();
-document.getElementById('qr').innerHTML = qr.createSvgTag({ cellSize: 8, margin: 32, scalable: true, alt: target });
+document.getElementById('qr').innerHTML = qr.createSvgTag({ cellSize: 8, margin: 16, scalable: true, alt: target });
 document.getElementById('url').textContent = site.replace(/^https?:\/\//, '').replace(/\/$/, '');
 </script>
 </body>

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0A0B0A">
-<title>Casino Night Photo Booth</title>
+<title>Grand Casino Photo Booth</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -118,7 +118,7 @@ button:focus-visible, .file-btn:focus-within { outline: 2px solid var(--gold-hi)
 
 <section id="s-welcome" class="screen center">
   <p id="w-school" class="overline">Keio High School</p>
-  <h1 class="title">Casino Night</h1>
+  <h1 class="title">Grand Casino</h1>
   <span class="rule"></span>
   <p class="eyebrow">Photo Booth</p>
   <p class="sub">撮るのは1枚。背景はあとで選べます。</p>
@@ -187,11 +187,11 @@ button:focus-visible, .file-btn:focus-within { outline: 2px solid var(--gold-hi)
 // ---------- settings the class can change ----------
 const CONFIG = {
   school: 'Keio High School',
-  event: 'CASINO NIGHT',
+  event: 'GRAND CASINO',
   place: 'CLASS CASINO',
   account: 'class_casino',
   likes: '777',
-  caption: '今夜はオールイン。',
+  caption: '今日はオールイン。',
   tags: '#ClassCasino #KeioHighSchool #文化祭',
   countdown: 3,
   burst: 5,
@@ -204,23 +204,24 @@ const FACE_CDN = 'https://storage.googleapis.com/mediapipe-models/face_detector/
 // Photographs (bg/, built by fetch-backgrounds.py) and scenes drawn in code (SCENES).
 // CC BY photos print their credit on every image.
 const BGS = [
-  { id: 'bellagio', ja: 'ベラージオ', photo: true },
-  { id: 'strip', ja: 'ストリップ', photo: true, credit: 'Photo: Notdjey, CC BY 2.0' },
+  { id: 'deco', ja: 'アールデコ' },
+  { id: 'decoRouge', ja: 'デコ・レッド' },
+  { id: 'decoRose', ja: 'デコ・ローズ' },
+  { id: 'decoChampagne', ja: 'シャンパン' },
+  { id: 'decoMint', ja: 'デコ・ミント' },
+  { id: 'blush', ja: 'ピンク' },
+  { id: 'balloonPastel', ja: 'パステル' },
+  { id: 'mirrors', ja: '鏡の間', photo: true, credit: 'Photo: Jorge Láscar, CC BY 2.0' },
   { id: 'red', ja: 'レッド', photo: true, credit: 'Photo: Andrew Milligan sumo, CC BY 2.0' },
   { id: 'gold', ja: 'ゴールド', photo: true, credit: 'Photo: Dennis Wong, CC BY 2.0' },
-  { id: 'lisboa', ja: 'リスボア', photo: true, credit: 'Photo: Николай Максимович, CC BY 3.0' },
-  { id: 'caesars', ja: 'シーザーズ', photo: true },
-  { id: 'neon', ja: 'ネオン', photo: true },
   { id: 'salon', ja: 'サロン' },
   { id: 'jackpot', ja: 'ジャックポット' },
   { id: 'velvet', ja: 'ベルベット' },
   { id: 'table', ja: 'VIPテーブル' },
-  { id: 'deco', ja: 'アールデコ' },
   { id: 'balloon', ja: 'バルーン' },
   { id: 'opera', ja: 'オペラ座', photo: true, credit: 'Photo: Jean-Pierre Dalbéra, CC BY 2.0' },
-  { id: 'rouge', ja: 'ルージュ', photo: true },
+  { id: 'rouge', ja: 'オペラ座・赤', photo: true },
   { id: 'montecarlo', ja: 'モンテカルロ', photo: true },
-  { id: 'mirrors', ja: '鏡の間', photo: true, credit: 'Photo: Jorge Láscar, CC BY 2.0' },
   { id: 'salon1900', ja: 'サロン1900', photo: true },
 ];
 // pw/ph: the photo inside the frame; top: head room above the people, as a share of the photo height
@@ -231,13 +232,8 @@ const FRAMES = {
 };
 // How the people are coloured to sit in each background
 const LOOKS = {
-  bellagio: { tint: [1.0, 1.0, 1.02], sat: 1.0, target: 0.52, wrap: 0.3, shadow: 0.2, vig: 0.38 },
-  strip: { tint: [1.02, 1.0, 1.0], sat: 1.0, target: 0.52, wrap: 0.35, shadow: 0.2, vig: 0.4 },
   red: { tint: [1.04, 0.99, 0.94], sat: 1.0, target: 0.5, wrap: 0.35, shadow: 0.22, vig: 0.42 },
   gold: { tint: [1.05, 1.0, 0.88], sat: 1.0, target: 0.5, wrap: 0.38, shadow: 0.22, vig: 0.4 },
-  lisboa: { tint: [1.03, 1.0, 0.95], sat: 1.0, target: 0.52, wrap: 0.3, shadow: 0.2, vig: 0.38 },
-  caesars: { tint: [1.03, 1.0, 0.93], sat: 1.0, target: 0.5, wrap: 0.35, shadow: 0.25, vig: 0.45 },
-  neon: { tint: [1.04, 0.98, 1.0], sat: 1.0, target: 0.52, wrap: 0.3, shadow: 0.2, vig: 0.38 },
   opera: { tint: [1.04, 1.0, 0.9], sat: 0.95, target: 0.5, wrap: 0.35, shadow: 0.22, vig: 0.4 },
   rouge: { tint: [1.05, 0.98, 0.9], sat: 0.95, target: 0.48, wrap: 0.38, shadow: 0.25, vig: 0.45 },
   montecarlo: { tint: [1.03, 1.0, 0.92], sat: 0.9, target: 0.5, wrap: 0.3, shadow: 0.22, vig: 0.4 },
@@ -248,6 +244,12 @@ const LOOKS = {
   table: { tint: [1.01, 1.01, 0.96], sat: 1.0, target: 0.5, wrap: 0.34, shadow: 0.45, vig: 0.45 },
   velvet: { tint: [1.03, 0.99, 0.96], sat: 1.0, target: 0.5, wrap: 0.38, shadow: 0.5, vig: 0.4 },
   deco: { tint: [1.01, 1.0, 0.98], sat: 0.98, target: 0.5, wrap: 0.2, shadow: 0.6, vig: 0.38 },
+  decoRouge: { tint: [1.03, 0.99, 0.96], sat: 1.0, target: 0.5, wrap: 0.25, shadow: 0.55, vig: 0.38 },
+  decoRose: { tint: [1.02, 1.0, 0.99], sat: 1.02, target: 0.56, wrap: 0.25, shadow: 0.3, vig: 0.12 },
+  decoChampagne: { tint: [1.02, 1.0, 0.99], sat: 1.02, target: 0.56, wrap: 0.25, shadow: 0.3, vig: 0.12 },
+  decoMint: { tint: [1.02, 1.0, 0.99], sat: 1.02, target: 0.56, wrap: 0.25, shadow: 0.3, vig: 0.12 },
+  blush: { tint: [1.02, 1.0, 0.99], sat: 1.02, target: 0.56, wrap: 0.25, shadow: 0.3, vig: 0.12 },
+  balloonPastel: { tint: [1.02, 1.0, 0.99], sat: 1.02, target: 0.56, wrap: 0.25, shadow: 0.3, vig: 0.12 },
   jackpot: { tint: [1.04, 1.01, 0.91], sat: 1.02, target: 0.53, wrap: 0.42, shadow: 0.32, vig: 0.36 },
   balloon: { tint: [1.02, 1.0, 0.97], sat: 1.0, target: 0.52, wrap: 0.28, shadow: 0.5, vig: 0.36 },
   real: { tint: [1.02, 1.0, 0.96], sat: 1.04, target: 0.5, wrap: 0, shadow: 0, vig: 0.34 },
@@ -264,7 +266,7 @@ const reducedMotion = !!(window.matchMedia && matchMedia('(prefers-reduced-motio
 
 const state = {
   mode: 'live', stream: null, facing: 'user', photo: null, cut: null,
-  bg: 'bellagio', frame: 'feed', blob: null, url: null, busy: false, cutNote: '',
+  bg: 'deco', frame: 'feed', blob: null, url: null, busy: false, cutNote: '',
 };
 
 // The Claude viewer's save capability; null everywhere else.
@@ -760,7 +762,81 @@ function coin(x, cx, cy, r, rot, tilt) {
   x.fillStyle = 'rgba(255,240,190,0.55)'; suitPath(x, '♠', -r * 0.02, -r * 0.02, r * 0.95);
   x.restore();
 }
+// Art Deco palettes: backdrop (radial, centre to edge), foil gradient, sunburst strength, vignette.
+const DECO = {
+  noir: { bg: [[0, '#172821'], [0.55, '#0A120E'], [1, '#040605']], foil: [[0, '#7D5C22'], [0.22, '#F3DC95'], [0.42, '#B48A36'], [0.62, '#FFF0BF'], [0.8, '#B48A36'], [1, '#8A6A2C']], rays: 0.45, vig: 0.35 },
+  rouge: { bg: [[0, '#6A1218'], [0.55, '#3A070C'], [1, '#160204']], foil: [[0, '#7D5C22'], [0.22, '#F3DC95'], [0.42, '#B48A36'], [0.62, '#FFF0BF'], [0.8, '#B48A36'], [1, '#8A6A2C']], rays: 0.45, vig: 0.35 },
+  rose: { bg: [[0, '#FBE6E4'], [0.55, '#F0C9C8'], [1, '#D9A5A6']], foil: [[0, '#8F4E43'], [0.22, '#E9B9A6'], [0.42, '#AE6A59'], [0.62, '#F8D6C8'], [0.8, '#AE6A59'], [1, '#86483E']], rays: 0.55, vig: 0.1 },
+  champagne: { bg: [[0, '#FFF8EA'], [0.55, '#F1E2C2'], [1, '#D8C29A']], foil: [[0, '#7A5518'], [0.22, '#D8B05A'], [0.42, '#93692A'], [0.62, '#EDCF86'], [0.8, '#93692A'], [1, '#6E4C16']], rays: 0.5, vig: 0.1 },
+  mint: { bg: [[0, '#E2F4F0'], [0.55, '#B8E0D8'], [1, '#86BFB4']], foil: [[0, '#7A5518'], [0.22, '#D8B05A'], [0.42, '#93692A'], [0.62, '#EDCF86'], [0.8, '#93692A'], [1, '#6E4C16']], rays: 0.5, vig: 0.12 },
+};
+function drawDeco(W, H, pal) {
+  const u = W / 1080, c = mk(W, H), x = c.getContext('2d'), cx = W / 2, cy = H * 0.62;
+  x.fillStyle = rg(x, cx, H * 0.45, 0, Math.max(W, H) * 0.8, pal.bg);
+  x.fillRect(0, 0, W, H);
+  const foil = () => lg(x, 0, 0, W, H, pal.foil);
+  // sunburst
+  x.save(); x.strokeStyle = foil(); x.globalAlpha = pal.rays;
+  for (let k = 0; k <= 48; k++) {
+    const a = Math.PI + k / 48 * Math.PI;
+    x.lineWidth = (k % 2 ? 1.6 : 3) * u;
+    x.beginPath(); x.moveTo(cx + Math.cos(a) * 250 * u, cy + Math.sin(a) * 250 * u); x.lineTo(cx + Math.cos(a) * W * 1.4, cy + Math.sin(a) * W * 1.4); x.stroke();
+  }
+  x.restore();
+  // stepped arcs behind the guests
+  x.save(); x.strokeStyle = foil();
+  for (const [rad, lw] of [[250, 12], [282, 3], [350, 3], [372, 1.5], [452, 7], [478, 1.5], [560, 2]]) {
+    x.lineWidth = lw * u; x.beginPath(); x.arc(cx, cy, rad * u, Math.PI, TAU); x.stroke();
+  }
+  x.restore();
+  // stepped Art Deco frame
+  const stepped = (x0, y0, x1, y1, s) => {
+    x.beginPath();
+    x.moveTo(x0 + 2 * s, y0); x.lineTo(x1 - 2 * s, y0); x.lineTo(x1 - 2 * s, y0 + s); x.lineTo(x1 - s, y0 + s); x.lineTo(x1 - s, y0 + 2 * s); x.lineTo(x1, y0 + 2 * s);
+    x.lineTo(x1, y1 - 2 * s); x.lineTo(x1 - s, y1 - 2 * s); x.lineTo(x1 - s, y1 - s); x.lineTo(x1 - 2 * s, y1 - s); x.lineTo(x1 - 2 * s, y1);
+    x.lineTo(x0 + 2 * s, y1); x.lineTo(x0 + 2 * s, y1 - s); x.lineTo(x0 + s, y1 - s); x.lineTo(x0 + s, y1 - 2 * s); x.lineTo(x0, y1 - 2 * s);
+    x.lineTo(x0, y0 + 2 * s); x.lineTo(x0 + s, y0 + 2 * s); x.lineTo(x0 + s, y0 + s); x.lineTo(x0 + 2 * s, y0 + s); x.closePath();
+  };
+  x.save(); x.strokeStyle = foil();
+  x.lineWidth = 5 * u; stepped(56 * u, 56 * u, W - 56 * u, H - 56 * u, 28 * u); x.stroke();
+  x.lineWidth = 1.6 * u; stepped(74 * u, 74 * u, W - 74 * u, H - 74 * u, 22 * u); x.stroke();
+  // corner fans
+  for (const [px, py, a0] of [[56 * u, 56 * u, 0], [W - 56 * u, 56 * u, Math.PI / 2], [W - 56 * u, H - 56 * u, Math.PI], [56 * u, H - 56 * u, Math.PI * 1.5]]) {
+    for (let k = 1; k <= 3; k++) { x.lineWidth = 2 * u; x.beginPath(); x.arc(px, py, (40 + k * 22) * u, a0, a0 + Math.PI / 2); x.stroke(); }
+    for (let k = 0; k <= 4; k++) { const a = a0 + k / 4 * Math.PI / 2; x.lineWidth = 1.4 * u; x.beginPath(); x.moveTo(px + Math.cos(a) * 40 * u, py + Math.sin(a) * 40 * u); x.lineTo(px + Math.cos(a) * 106 * u, py + Math.sin(a) * 106 * u); x.stroke(); }
+  }
+  x.restore();
+  // diamonds at the middle of each side
+  x.fillStyle = foil();
+  for (const [px, py] of [[W / 2, 56 * u], [56 * u, H / 2], [W - 56 * u, H / 2]]) { x.beginPath(); x.moveTo(px, py - 16 * u); x.lineTo(px + 16 * u, py); x.lineTo(px, py + 16 * u); x.lineTo(px - 16 * u, py); x.closePath(); x.fill(); }
+  vignette(x, W, H, pal.vig);
+  return { bg: c };
+}
+
+// A bright party wall: pink champagne light, soft bokeh and glitter.
+function drawBlush(W, H) {
+  const u = W / 1080, r = rng(11), c = mk(W, H), x = c.getContext('2d');
+  x.fillStyle = lg(x, 0, 0, 0, H, [[0, '#FCE8EA'], [0.55, '#F5CDD3'], [1, '#E9B4BC']]); x.fillRect(0, 0, W, H);
+  glow(x, W / 2, H * 0.34, W * 0.8, [255, 248, 240], 0.5, 'screen');
+  for (let k = 0; k < 90; k++) {
+    const col = [[255, 255, 255], [255, 228, 216], [255, 214, 172], [255, 192, 206]][Math.floor(r() * 4)];
+    bokeh(x, r() * W, r() * H * 0.92, (8 + r() * 44) * u, col, 0.18 + r() * 0.3);
+  }
+  for (let k = 0; k < 170; k++) {
+    x.fillStyle = `rgba(255,251,242,${0.4 + r() * 0.5})`;
+    x.beginPath(); x.arc(r() * W, r() * H, (1 + r() * 2.2) * u, 0, TAU); x.fill();
+  }
+  vignette(x, W, H, 0.08);
+  return { bg: c };
+}
 const SCENES = {
+  deco: (W, H) => drawDeco(W, H, DECO.noir),
+  decoRouge: (W, H) => drawDeco(W, H, DECO.rouge),
+  decoRose: (W, H) => drawDeco(W, H, DECO.rose),
+  decoChampagne: (W, H) => drawDeco(W, H, DECO.champagne),
+  decoMint: (W, H) => drawDeco(W, H, DECO.mint),
+  blush: drawBlush,
+  balloonPastel: (W, H) => drawBalloons(W, H, BALLOONS.pastel),
   salon(W, H) {
     const u = W / 1080, r = rng(7), c = mk(W, H), x = c.getContext('2d'), lights = [];
     x.fillStyle = lg(x, 0, 0, 0, H, [[0, '#23110A'], [0.38, '#4C2711'], [0.62, '#2C140A'], [1, '#100705']]);
@@ -928,49 +1004,6 @@ const SCENES = {
     return { bg: b };
   },
 
-  deco(W, H) {
-    const u = W / 1080, c = mk(W, H), x = c.getContext('2d'), cx = W / 2, cy = H * 0.62;
-    x.fillStyle = rg(x, cx, H * 0.45, 0, Math.max(W, H) * 0.8, [[0, '#172821'], [0.55, '#0A120E'], [1, '#040605']]);
-    x.fillRect(0, 0, W, H);
-    const foil = () => lg(x, 0, 0, W, H, [[0, '#7D5C22'], [0.22, '#F3DC95'], [0.42, '#B48A36'], [0.62, '#FFF0BF'], [0.8, '#B48A36'], [1, '#8A6A2C']]);
-    // sunburst
-    x.save(); x.strokeStyle = foil(); x.globalAlpha = 0.45;
-    for (let k = 0; k <= 48; k++) {
-      const a = Math.PI + k / 48 * Math.PI;
-      x.lineWidth = (k % 2 ? 1.6 : 3) * u;
-      x.beginPath(); x.moveTo(cx + Math.cos(a) * 250 * u, cy + Math.sin(a) * 250 * u); x.lineTo(cx + Math.cos(a) * W * 1.4, cy + Math.sin(a) * W * 1.4); x.stroke();
-    }
-    x.restore();
-    // stepped arcs behind the guests
-    x.save(); x.strokeStyle = foil();
-    for (const [rad, lw] of [[250, 12], [282, 3], [350, 3], [372, 1.5], [452, 7], [478, 1.5], [560, 2]]) {
-      x.lineWidth = lw * u; x.beginPath(); x.arc(cx, cy, rad * u, Math.PI, TAU); x.stroke();
-    }
-    x.restore();
-    // stepped Art Deco frame
-    const stepped = (x0, y0, x1, y1, s) => {
-      x.beginPath();
-      x.moveTo(x0 + 2 * s, y0); x.lineTo(x1 - 2 * s, y0); x.lineTo(x1 - 2 * s, y0 + s); x.lineTo(x1 - s, y0 + s); x.lineTo(x1 - s, y0 + 2 * s); x.lineTo(x1, y0 + 2 * s);
-      x.lineTo(x1, y1 - 2 * s); x.lineTo(x1 - s, y1 - 2 * s); x.lineTo(x1 - s, y1 - s); x.lineTo(x1 - 2 * s, y1 - s); x.lineTo(x1 - 2 * s, y1);
-      x.lineTo(x0 + 2 * s, y1); x.lineTo(x0 + 2 * s, y1 - s); x.lineTo(x0 + s, y1 - s); x.lineTo(x0 + s, y1 - 2 * s); x.lineTo(x0, y1 - 2 * s);
-      x.lineTo(x0, y0 + 2 * s); x.lineTo(x0 + s, y0 + 2 * s); x.lineTo(x0 + s, y0 + s); x.lineTo(x0 + 2 * s, y0 + s); x.closePath();
-    };
-    x.save(); x.strokeStyle = foil();
-    x.lineWidth = 5 * u; stepped(56 * u, 56 * u, W - 56 * u, H - 56 * u, 28 * u); x.stroke();
-    x.lineWidth = 1.6 * u; stepped(74 * u, 74 * u, W - 74 * u, H - 74 * u, 22 * u); x.stroke();
-    // corner fans
-    for (const [px, py, a0] of [[56 * u, 56 * u, 0], [W - 56 * u, 56 * u, Math.PI / 2], [W - 56 * u, H - 56 * u, Math.PI], [56 * u, H - 56 * u, Math.PI * 1.5]]) {
-      for (let k = 1; k <= 3; k++) { x.lineWidth = 2 * u; x.beginPath(); x.arc(px, py, (40 + k * 22) * u, a0, a0 + Math.PI / 2); x.stroke(); }
-      for (let k = 0; k <= 4; k++) { const a = a0 + k / 4 * Math.PI / 2; x.lineWidth = 1.4 * u; x.beginPath(); x.moveTo(px + Math.cos(a) * 40 * u, py + Math.sin(a) * 40 * u); x.lineTo(px + Math.cos(a) * 106 * u, py + Math.sin(a) * 106 * u); x.stroke(); }
-    }
-    x.restore();
-    // diamonds at the middle of each side
-    x.fillStyle = foil();
-    for (const [px, py] of [[W / 2, 56 * u], [56 * u, H / 2], [W - 56 * u, H / 2]]) { x.beginPath(); x.moveTo(px, py - 16 * u); x.lineTo(px + 16 * u, py); x.lineTo(px, py + 16 * u); x.lineTo(px - 16 * u, py); x.closePath(); x.fill(); }
-    vignette(x, W, H, 0.35);
-    return { bg: c };
-  },
-
   jackpot(W, H) {
     const u = W / 1080, r = rng(77), c = mk(W, H), x = c.getContext('2d'), cx = W / 2, cy = H * 0.36;
     x.fillStyle = rg(x, cx, cy, 0, Math.max(W, H) * 0.85, [[0, '#FFF1B8'], [0.16, '#F4C55A'], [0.5, '#B97A19'], [1, '#3A2004']]);
@@ -1015,54 +1048,61 @@ const SCENES = {
     return { bg: c, fg: fb };
   },
 
-  balloon(W, H) {
-    const u = W / 1080, r = rng(3), c = mk(W, H), x = c.getContext('2d');
-    // gold sequin wall
-    x.fillStyle = '#21180B'; x.fillRect(0, 0, W, H);
-    const s = 15 * u, rad = 6.6 * u;
-    for (let yy = 0, row = 0; yy < H + s; yy += s * 0.87, row++) {
-      for (let xx = (row % 2) * s / 2; xx < W + s; xx += s) {
-        const v = r();
-        x.fillStyle = rgba(mix([66, 48, 22], [214, 176, 98], Math.pow(v, 1.7)), 1);
-        x.beginPath(); x.arc(xx, yy, rad, 0, TAU); x.fill();
-        if (v > 0.94) { x.fillStyle = 'rgba(255,248,226,0.9)'; x.beginPath(); x.arc(xx - rad * 0.25, yy - rad * 0.25, rad * 0.45, 0, TAU); x.fill(); }
-      }
-    }
-    const wall = blurCanvas(c, 1.6 * u), wx = wall.getContext('2d');
-    free(c);
-    glow(wx, W / 2, H * 0.42, W * 0.7, [255, 220, 160], 0.22, 'screen');
-    for (let k = 0; k < 70; k++) bokeh(wx, r() * W, r() * H, (4 + r() * 14) * u, [255, 244, 214], 0.25 + r() * 0.4);
-    vignette(wx, W, H, 0.55);
-    // balloon garland arching over the guests
-    const kinds = ['black', 'black', 'black', 'gold', 'gold', 'gold', 'pearl', 'pearl', 'champagne', 'red'];
-    const pick = () => kinds[Math.floor(r() * kinds.length)];
-    const bez = (p, t) => { const m = 1 - t; return [m * m * m * p[0][0] + 3 * m * m * t * p[1][0] + 3 * m * t * t * p[2][0] + t * t * t * p[3][0], m * m * m * p[0][1] + 3 * m * m * t * p[1][1] + 3 * m * t * t * p[2][1] + t * t * t * p[3][1]]; };
-    const legL = [[0.04 * W, 1.04 * H], [-0.02 * W, 0.5 * H], [0.04 * W, 0.08 * H], [0.42 * W, 0.05 * H]];
-    const legR = [[0.42 * W, 0.05 * H], [0.84 * W, 0.02 * H], [1.02 * W, 0.26 * H], [0.97 * W, 1.04 * H]];
-    const back = [], front = [];
-    for (const [leg, flip] of [[legL, 0], [legR, 1]]) {
-      for (let k = 0; k < 40; k++) {
-        const t = k / 39, [px, py] = bez(leg, t), size = r();
-        const radius = (size < 0.45 ? 76 + r() * 26 : size < 0.85 ? 50 + r() * 14 : 28 + r() * 8) * u;
-        const b = [px + (r() - 0.5) * 110 * u, py + (r() - 0.5) * 100 * u, radius, pick(), (r() - 0.5) * 0.6];
-        const lowEnd = flip ? t > 0.72 : t < 0.22;
-        (lowEnd && r() < 0.6 ? front : back).push(b);
-      }
-    }
-    // small fillers first, so they peek out from between the big ones
-    const draw = (ctx, list) => {
-      list.sort((a, b) => a[2] - b[2]);
-      ctx.save(); ctx.shadowColor = 'rgba(0,0,0,0.45)'; ctx.shadowBlur = 24 * u; ctx.shadowOffsetX = 6 * u; ctx.shadowOffsetY = 16 * u;
-      for (const b of list) balloon(ctx, ...b);
-      ctx.restore();
-    };
-    draw(wx, back);
-    const f = mk(W, H), fx = f.getContext('2d');
-    draw(fx, front);
-    return { bg: wall, fg: f };
-  },
+  balloon: (W, H) => drawBalloons(W, H, BALLOONS.noir),
 };
 
+const BALLOONS = {
+  noir: { wall: '#21180B', seqLo: [66, 48, 22], seqHi: [214, 176, 98], vig: 0.55, shadow: 0.45,
+    kinds: ['black', 'black', 'black', 'gold', 'gold', 'gold', 'pearl', 'pearl', 'champagne', 'red'] },
+  pastel: { wall: '#F3E3DF', seqLo: [226, 200, 192], seqHi: [255, 247, 240], vig: 0.12, shadow: 0.22,
+    kinds: ['pink', 'pink', 'pink', 'blush', 'blush', 'pearl', 'pearl', 'gold', 'gold', 'champagne'] },
+};
+function drawBalloons(W, H, pal) {
+  const u = W / 1080, r = rng(3), c = mk(W, H), x = c.getContext('2d');
+  // gold sequin wall
+  x.fillStyle = pal.wall; x.fillRect(0, 0, W, H);
+  const s = 15 * u, rad = 6.6 * u;
+  for (let yy = 0, row = 0; yy < H + s; yy += s * 0.87, row++) {
+    for (let xx = (row % 2) * s / 2; xx < W + s; xx += s) {
+      const v = r();
+      x.fillStyle = rgba(mix(pal.seqLo, pal.seqHi, Math.pow(v, 1.7)), 1);
+      x.beginPath(); x.arc(xx, yy, rad, 0, TAU); x.fill();
+      if (v > 0.94) { x.fillStyle = 'rgba(255,248,226,0.9)'; x.beginPath(); x.arc(xx - rad * 0.25, yy - rad * 0.25, rad * 0.45, 0, TAU); x.fill(); }
+    }
+  }
+  const wall = blurCanvas(c, 1.6 * u), wx = wall.getContext('2d');
+  free(c);
+  glow(wx, W / 2, H * 0.42, W * 0.7, [255, 220, 160], 0.22, 'screen');
+  for (let k = 0; k < 70; k++) bokeh(wx, r() * W, r() * H, (4 + r() * 14) * u, [255, 244, 214], 0.25 + r() * 0.4);
+  vignette(wx, W, H, pal.vig);
+  // balloon garland arching over the guests
+  const kinds = pal.kinds;
+  const pick = () => kinds[Math.floor(r() * kinds.length)];
+  const bez = (p, t) => { const m = 1 - t; return [m * m * m * p[0][0] + 3 * m * m * t * p[1][0] + 3 * m * t * t * p[2][0] + t * t * t * p[3][0], m * m * m * p[0][1] + 3 * m * m * t * p[1][1] + 3 * m * t * t * p[2][1] + t * t * t * p[3][1]]; };
+  const legL = [[0.04 * W, 1.04 * H], [-0.02 * W, 0.5 * H], [0.04 * W, 0.08 * H], [0.42 * W, 0.05 * H]];
+  const legR = [[0.42 * W, 0.05 * H], [0.84 * W, 0.02 * H], [1.02 * W, 0.26 * H], [0.97 * W, 1.04 * H]];
+  const back = [], front = [];
+  for (const [leg, flip] of [[legL, 0], [legR, 1]]) {
+    for (let k = 0; k < 40; k++) {
+      const t = k / 39, [px, py] = bez(leg, t), size = r();
+      const radius = (size < 0.45 ? 76 + r() * 26 : size < 0.85 ? 50 + r() * 14 : 28 + r() * 8) * u;
+      const b = [px + (r() - 0.5) * 110 * u, py + (r() - 0.5) * 100 * u, radius, pick(), (r() - 0.5) * 0.6];
+      const lowEnd = flip ? t > 0.72 : t < 0.22;
+      (lowEnd && r() < 0.6 ? front : back).push(b);
+    }
+  }
+  // small fillers first, so they peek out from between the big ones
+  const draw = (ctx, list) => {
+    list.sort((a, b) => a[2] - b[2]);
+    ctx.save(); ctx.shadowColor = `rgba(0,0,0,${pal.shadow})`; ctx.shadowBlur = 24 * u; ctx.shadowOffsetX = 6 * u; ctx.shadowOffsetY = 16 * u;
+    for (const b of list) balloon(ctx, ...b);
+    ctx.restore();
+  };
+  draw(wx, back);
+  const f = mk(W, H), fx = f.getContext('2d');
+  draw(fx, front);
+  return { bg: wall, fg: f };
+}
 function balloon(x, cx, cy, r, kind, rot) {
   x.save(); x.translate(cx, cy); x.rotate(rot);
   const ry = r * 1.07;
@@ -1071,6 +1111,8 @@ function balloon(x, cx, cy, r, kind, rot) {
     pearl: [[255, 252, 246], [226, 218, 204], [150, 140, 126]],
     champagne: [[250, 226, 186], [210, 170, 116], [118, 84, 48]],
     red: [[236, 84, 84], [172, 18, 32], [72, 4, 12]],
+    pink: [[255, 214, 226], [240, 150, 178], [168, 74, 104]],
+    blush: [[255, 238, 234], [244, 200, 196], [186, 132, 128]],
   };
   if (kind === 'gold') {
     x.fillStyle = lg(x, -r, -ry, r, ry, [[0, '#FFF4C8'], [0.22, '#E0B04A'], [0.42, '#7A5310'], [0.58, '#F2D07A'], [0.78, '#9A6C1C'], [1, '#4A3008']]);
@@ -1316,7 +1358,7 @@ const FRAME_DRAW = {
     x.fillStyle = '#E6E6E6'; x.fillRect(0, 168, W, 1.5);
     // account row: a monogram, like a real venue's account
     x.fillStyle = '#111111'; x.beginPath(); x.arc(84, 236, 42, 0, TAU); x.fill();
-    x.fillStyle = IVORY; x.textAlign = 'center'; x.font = `500 38px ${SERIF}`; x.fillText('CN', 84, 249);
+    x.fillStyle = IVORY; x.textAlign = 'center'; x.font = `500 38px ${SERIF}`; x.fillText('GC', 84, 249);
     x.textAlign = 'left'; x.fillStyle = '#111'; x.font = `700 32px ${SANS}`; x.fillText(CONFIG.account, 150, 228);
     x.fillStyle = '#8E8E8E'; x.font = `400 24px ${SANS}`; x.fillText(CONFIG.place, 150, 266);
     x.fillStyle = '#111'; [0, 1, 2].forEach((k) => { x.beginPath(); x.arc(W - 96 + k * 18, 240, 4.5, 0, TAU); x.fill(); });
@@ -1601,7 +1643,11 @@ if (FAST) {
   window.__booth = state; window.__out = {}; window.__log = segLog; window.__times = {};
   setTimeout(async () => {
     try {
-      if (TEST.startsWith('autotest-file')) {
+      const sc = TEST.match(/^autotest-scene-(\w+)-(\d+)x(\d+)$/);
+      if (sc) {
+        const made = SCENES[sc[1]](+sc[2], +sc[3]);
+        window.__out.scene = await toBlob(made.bg);
+      } else if (TEST.startsWith('autotest-file')) {
         const blob = await (await fetch('test/selfie.jpg')).blob();
         state.mode = 'file'; state.photo = await fileToCanvas(blob);
         await develop();
@@ -1610,7 +1656,7 @@ if (FAST) {
           mx.fillStyle = '#000'; mx.fillRect(0, 0, mc.width, mc.height); mx.drawImage(state.cut.alphaCanvas, 0, 0);
           window.__out.mask = await toBlob(mc); free(mc);
         }
-        const combos = BGS.map((b) => [b.id, 'feed']).concat([['bellagio', 'gorgeous'], ['red', 'gorgeous'], ['salon', 'gorgeous'], ['opera', 'gorgeous'], ['gold', 'post']]);
+        const combos = BGS.map((b) => [b.id, 'feed']).concat([['deco', 'gorgeous'], ['decoRouge', 'gorgeous'], ['decoRose', 'gorgeous'], ['balloonPastel', 'gorgeous'], ['blush', 'post']]);
         for (const [b, f] of combos) {
           const t = performance.now(), c = composeImage(b, f);
           window.__times[`${b}-${f}`] = Math.round(performance.now() - t);

@@ -1,29 +1,4 @@
 {
- "bellagio": {
-  "ja": "ベラージオ",
-  "credit": "",
-  "source": "https://commons.wikimedia.org/wiki/File:Bellagio_Las_Vegas_2011.jpg"
- },
- "strip": {
-  "ja": "ストリップ",
-  "credit": "Photo: Notdjey, CC BY 2.0",
-  "source": "https://commons.wikimedia.org/wiki/File:Las_Vegas_by_night_2019_-_46671323131.jpg"
- },
- "fremont": {
-  "ja": "フリーモント",
-  "credit": "",
-  "source": "https://commons.wikimedia.org/wiki/File:The_Fremont_Street_Experience.jpg"
- },
- "caesars": {
-  "ja": "シーザーズ",
-  "credit": "",
-  "source": "https://commons.wikimedia.org/wiki/File:Entrance_to_the_Casino_at_Caesar%27s_Palace.jpg"
- },
- "neon": {
-  "ja": "ネオン",
-  "credit": "",
-  "source": "https://commons.wikimedia.org/wiki/File:Las_Vegas_-_Sign.jpg"
- },
  "gold": {
   "ja": "ゴールド",
   "credit": "Photo: Dennis Wong, CC BY 2.0",
@@ -33,11 +8,6 @@
   "ja": "レッド",
   "credit": "Photo: Andrew Milligan sumo, CC BY 2.0",
   "source": "https://commons.wikimedia.org/wiki/File:Wynn_Las_Vegas_casino_floor_(2018).jpg"
- },
- "lisboa": {
-  "ja": "リスボア",
-  "credit": "Photo: Николай Максимович, CC BY 3.0",
-  "source": "https://commons.wikimedia.org/wiki/File:Casino_Lisboa_,_Macau_-_panoramio.jpg"
  },
  "opera": {
   "ja": "オペラ座",
