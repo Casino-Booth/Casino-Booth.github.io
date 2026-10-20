@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Photo Booth Poster, Casino</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Sans+JP:wght@400;700&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
+<style>
+/* The casino poster: marquee bulbs round the edge, an Art Deco double frame, fanned cards left of the QR,
+   chips and dice to its right, a suits divider under the title. ?theme=white|ivory|noir|rouge|rose.
+   All art is one SVG built below, so it prints without the browser's "background graphics" option. */
+@page { size: A4; margin: 0; }
+:root { --bg: #FFF; --bg2: #FFF; --ink: #111; --gold: #9C8150; --soft: #555; }
+:root[data-theme="ivory"] { --bg: #FBF6EA; --bg2: #F1E6CC; --ink: #1A1612; --gold: #A88A4E; --soft: #5E5444; }
+:root[data-theme="noir"] { --bg: #17201C; --bg2: #050706; --ink: #F4ECDA; --gold: #D9B86C; --soft: #CFC5B0; }
+:root[data-theme="rouge"] { --bg: #5E0D14; --bg2: #1E0306; --ink: #F6EBD9; --gold: #E0C07A; --soft: #E3CFB8; }
+:root[data-theme="rose"] { --bg: #FBE9E7; --bg2: #EFC8C6; --ink: #3A2326; --gold: #B07A66; --soft: #6E5154; }
+* { box-sizing: border-box; }
+html, body { margin: 0; background: #E9E6DF; font-family: "Noto Sans JP", sans-serif; }
+.sheet { width: 210mm; height: 297mm; margin: 0 auto; position: relative; overflow: hidden; color: var(--ink); }
+.art { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.inner { position: relative; height: 100%; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 25mm 12mm 12mm; }
+.school { margin: 0; font-family: "Cormorant Garamond", serif; font-weight: 600; font-size: 4.4mm; letter-spacing: 2mm; text-transform: uppercase; color: var(--gold); }
+.title { margin: 3mm 0 0; font-family: "Cormorant Garamond", serif; font-weight: 500; font-size: 17mm; letter-spacing: 2.2mm; line-height: 1.05; }
+.eyebrow { margin: 15mm 0 0; font-family: "Cormorant Garamond", serif; font-weight: 600; font-size: 4.8mm; letter-spacing: 3.4mm; text-transform: uppercase; color: var(--gold); }
+.qrbox { margin-top: 5mm; background: #FFF; padding: 3mm; border: 0.6mm solid var(--gold); outline: 0.25mm solid var(--gold); outline-offset: 1.2mm; }
+.qr { width: 92mm; height: 92mm; }
+.qr svg { width: 100%; height: 100%; display: block; }
+.url { margin-top: 3mm; font-size: 4mm; letter-spacing: 0.2mm; color: var(--soft); }
+ol { list-style: none; padding: 0; margin: 7mm 0 0; text-align: left; font-size: 5.6mm; font-weight: 700; }
+li { display: flex; align-items: center; gap: 4mm; margin: 0 0 2.6mm; }
+li b { flex: none; width: 8mm; height: 8mm; border: 0.3mm solid var(--gold); display: grid; place-items: center; font-family: "Cormorant Garamond", serif; font-weight: 600; font-size: 5mm; color: var(--gold); }
+.fine { margin-top: auto; padding-bottom: 9mm; font-size: 3.3mm; color: var(--soft); line-height: 1.7; }
+@media screen { body { padding: 16px 0; } .sheet { box-shadow: 0 2px 16px rgba(0, 0, 0, 0.25); } }
+@media screen and (max-width: 800px) { .sheet { zoom: 0.45; } }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <svg class="art" id="art" viewBox="0 0 210 297" preserveAspectRatio="none" aria-hidden="true"></svg>
+  <div class="inner">
+    <p class="school">Keio High School</p>
+    <h1 class="title">GRAND CASINO</h1>
+    <p class="eyebrow">Photo Booth</p>
+    <div class="qrbox"><div class="qr" id="qr"></div></div>
+    <div class="url" id="url"></div>
+    <ol>
+      <li><b>1</b><span>スマホのカメラでQRコードを読み取る</span></li>
+      <li><b>2</b><span>「撮影をはじめる」を押して1枚撮る</span></li>
+      <li><b>3</b><span>背景とフレームを選んで保存</span></li>
+    </ol>
+    <p class="fine">アプリ不要・無料。写真はスマホの中だけで作られ、どこにも送られません。<br>
+      はじめに撮影用のデータ（<span id="size">約20MB</span>）を読み込みます。並んでいる間に開いておくと待たずに撮れます。</p>
+  </div>
+</div>
+<script>
+const theme = new URLSearchParams(location.search).get('theme') || 'white';
+document.documentElement.dataset.theme = theme;
+const dark = theme === 'noir' || theme === 'rouge';
+
+// ---------- the art (all in mm, on a 210 x 297 sheet) ----------
+const NS = 'http://www.w3.org/2000/svg', art = document.getElementById('art');
+function el(tag, attrs, parent = art) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v);
+  parent.appendChild(e); return e;
+}
+const css = getComputedStyle(document.documentElement), C = (v) => css.getPropertyValue(v).trim();
+const GOLD = C('--gold');
+const defs = el('defs', {});
+const bgGrad = el('radialGradient', { id: 'bg', cx: '50%', cy: '45%', r: '75%' }, defs);
+el('stop', { offset: 0, 'stop-color': C('--bg') }, bgGrad); el('stop', { offset: 1, 'stop-color': C('--bg2') }, bgGrad);
+const bulb = el('radialGradient', { id: 'bulb' }, defs);
+el('stop', { offset: 0, 'stop-color': '#FFFBEA' }, bulb);
+el('stop', { offset: 0.45, 'stop-color': dark ? '#FFD98A' : GOLD }, bulb);
+el('stop', { offset: 1, 'stop-color': dark ? '#FFB347' : GOLD, 'stop-opacity': dark ? 0 : 0.15 }, bulb);
+el('rect', { width: 210, height: 297, fill: 'url(#bg)' });
+
+// suits, drawn as paths on a 12-unit square centred on 0,0
+const SUIT = {
+  heart: 'M0,-2.6 C-1.4,-6 -6,-5.2 -6,-1.4 C-6,1.8 -2.4,3.8 0,6 C2.4,3.8 6,1.8 6,-1.4 C6,-5.2 1.4,-6 0,-2.6 Z',
+  diamond: 'M0,-6 L4.6,0 L0,6 L-4.6,0 Z',
+  spade: 'M0,-6 C-2.2,-3 -6,-1.2 -6,2 C-6,4.8 -2.6,5.8 -0.8,3.6 L-2,6.4 L2,6.4 L0.8,3.6 C2.6,5.8 6,4.8 6,2 C6,-1.2 2.2,-3 0,-6 Z',
+  club: 'M-0.8,2 L-2,6.4 L2,6.4 L0.8,2 Z M0,-5.6 a2.7,2.7 0 1 0 0.01,0 Z M-3.2,-0.6 a2.7,2.7 0 1 0 0.01,0 Z M3.2,-0.6 a2.7,2.7 0 1 0 0.01,0 Z',
+};
+const RED = '#B3161F', BLACK = '#17171A';
+function suit(name, x, y, size, fill, parent = art) {
+  const g = el('g', { transform: `translate(${x} ${y}) scale(${size / 12})` }, parent);
+  if (name === 'club') {
+    el('path', { d: 'M-0.8,2 L-2,6.4 L2,6.4 L0.8,2 Z', fill }, g);
+    for (const [cx, cy] of [[0, -3.2], [-3.2, 0.9], [3.2, 0.9]]) el('circle', { cx, cy, r: 2.75, fill }, g);
+  } else el('path', { d: SUIT[name], fill }, g);
+  return g;
+}
+
+// marquee bulbs round the edge
+const inset = 6.5, step = 7.6;
+const bulbAt = (x, y) => { el('circle', { cx: x, cy: y, r: dark ? 2.3 : 1.5, fill: 'url(#bulb)' }); el('circle', { cx: x, cy: y, r: 0.75, fill: dark ? '#FFF8E2' : GOLD }); };
+for (let n = Math.round((210 - 2 * inset) / step), i = 0; i <= n; i++) { const x = inset + i * (210 - 2 * inset) / n; bulbAt(x, inset); bulbAt(x, 297 - inset); }
+for (let n = Math.round((297 - 2 * inset) / step), i = 1; i < n; i++) { const y = inset + i * (297 - 2 * inset) / n; bulbAt(inset, y); bulbAt(210 - inset, y); }
+
+// Art Deco double frame with stepped corners
+const frame = (o, s, w) => {
+  const a = o, b = 210 - o, c = o, d = 297 - o;
+  el('path', { d: `M${a + 2 * s},${c} H${b - 2 * s} V${c + s} H${b - s} V${c + 2 * s} H${b} V${d - 2 * s} H${b - s} V${d - s} H${b - 2 * s} V${d} H${a + 2 * s} V${d - s} H${a + s} V${d - 2 * s} H${a} V${c + 2 * s} H${a + s} V${c + s} H${a + 2 * s} Z`, fill: 'none', stroke: GOLD, 'stroke-width': w });
+};
+frame(11, 4, 0.55); frame(13.4, 3.4, 0.25);
+
+// suits divider under the title
+const dy = 59;
+el('line', { x1: 40, y1: dy, x2: 80, y2: dy, stroke: GOLD, 'stroke-width': 0.35 });
+el('line', { x1: 130, y1: dy, x2: 170, y2: dy, stroke: GOLD, 'stroke-width': 0.35 });
+['spade', 'heart', 'diamond', 'club'].forEach((n, i) => suit(n, 89 + i * 10.6, dy, 6.2, n === 'heart' || n === 'diamond' ? RED : (dark ? C('--ink') : BLACK)));
+
+// a playing card: white face, gold-edged, rank in two corners and a big suit in the middle
+function card(x, y, rot, rank, s) {
+  const g = el('g', { transform: `translate(${x} ${y}) rotate(${rot}) scale(0.88)` });
+  const col = s === 'heart' || s === 'diamond' ? RED : BLACK;
+  el('rect', { x: -12, y: -17, width: 24, height: 34, rx: 2, fill: '#FFFDF7', stroke: GOLD, 'stroke-width': 0.4 }, g);
+  el('rect', { x: -10.3, y: -15.3, width: 20.6, height: 30.6, rx: 1.2, fill: 'none', stroke: GOLD, 'stroke-width': 0.15 }, g);
+  for (const [tx, ty, r] of [[-8.6, -10.6, 0], [8.6, 10.6, 180]]) {
+    const t = el('text', { x: 0, y: 0, transform: `translate(${tx} ${ty}) rotate(${r})`, 'text-anchor': 'middle', 'font-family': 'Cormorant Garamond, serif', 'font-weight': 700, 'font-size': 5.6, fill: col }, g);
+    t.textContent = rank;
+    suit(s, 0, 0, 3.2, col, el('g', { transform: `translate(${tx} ${ty + (r ? -4.2 : 4.2)}) rotate(${r})` }, g));
+  }
+  suit(s, 0, 0, 12, col, g);
+}
+card(27, 126, -16, 'A', 'spade');
+card(33, 130, -2, 'K', 'heart');
+card(39, 136, 12, 'Q', 'diamond');
+
+// a casino chip seen from above: coloured disc, eight edge inserts, a gold ring and a suit
+function chip(x, y, r, col, s, rot = 0) {
+  const g = el('g', { transform: `translate(${x} ${y}) rotate(${rot})` });
+  el('circle', { r, fill: col, stroke: dark ? 'rgba(255,255,255,0.35)' : 'rgba(0,0,0,0.25)', 'stroke-width': 0.2 }, g);
+  for (let k = 0; k < 8; k++) el('rect', { x: -r * 0.13, y: -r, width: r * 0.26, height: r * 0.22, fill: '#F6F1E6', transform: `rotate(${k * 45})` }, g);
+  el('circle', { r: r * 0.66, fill: 'none', stroke: '#F6F1E6', 'stroke-width': r * 0.05, 'stroke-dasharray': `${r * 0.25} ${r * 0.17}` }, g);
+  el('circle', { r: r * 0.5, fill: col, stroke: '#E3C47A', 'stroke-width': r * 0.06 }, g);
+  suit(s, 0, 0.2, r * 0.62, '#E3C47A', g);
+}
+chip(171, 116, 9, '#B3161F', 'heart', 10);
+chip(184, 129, 8, '#17171A', 'spade', -20);
+chip(168, 136, 8.5, '#C9A13E', 'diamond', 30);
+chip(180, 147, 7.5, '#1F6B48', 'club', 5);
+
+// two dice
+function die(x, y, rot, pips) {
+  const g = el('g', { transform: `translate(${x} ${y}) rotate(${rot})` });
+  el('rect', { x: -5, y: -5, width: 10, height: 10, rx: 1.8, fill: '#FFFDF7', stroke: GOLD, 'stroke-width': 0.35 }, g);
+  const P = { 1: [[0, 0]], 3: [[-2.6, -2.6], [0, 0], [2.6, 2.6]], 5: [[-2.6, -2.6], [2.6, -2.6], [0, 0], [-2.6, 2.6], [2.6, 2.6]], 6: [[-2.6, -2.8], [2.6, -2.8], [-2.6, 0], [2.6, 0], [-2.6, 2.8], [2.6, 2.8]] };
+  for (const [px, py] of P[pips]) el('circle', { cx: px, cy: py, r: 0.95, fill: pips === 1 ? RED : BLACK }, g);
+}
+die(170, 160, -12, 5); die(183, 165, 18, 6);
+
+// a row of chips above the small print
+[['#B3161F', 'heart', 8], ['#17171A', 'spade', -14], ['#C9A13E', 'diamond', 22], ['#1F6B48', 'club', -6], ['#B3161F', 'heart', 16]]
+  .forEach(([col, s, rot], i) => chip(61 + i * 22, 244, 7, col, s, rot));
+
+// small suits in the four inner corners of the frame
+[['spade', 24, 24], ['heart', 186, 24], ['diamond', 24, 273], ['club', 186, 273]].forEach(([n, x, y]) => suit(n, x, y, 5, GOLD));
+
+// ---------- the QR ----------
+const site = location.hash.length > 1 ? decodeURIComponent(location.hash.slice(1)) : location.origin + '/';
+const target = site + '?openExternalBrowser=1';
+const qr = qrcode(0, 'M'); qr.addData(target); qr.make();
+document.getElementById('qr').innerHTML = qr.createSvgTag({ cellSize: 8, margin: 16, scalable: true, alt: target });
+document.getElementById('url').textContent = site.replace(/^https?:\/\//, '').replace(/\/$/, '');
+</script>
+</body>
+</html>
