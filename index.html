@@ -285,8 +285,11 @@ function show(id) {
 }
 
 // ---------- sound ----------
+// Off: the owner wants a silent booth. With no audio context, tone() and noise() play nothing.
+const SOUND = false;
 let ac = null;
 function audioOn() {
+  if (!SOUND) return;
   try {
     ac = ac || new (window.AudioContext || window.webkitAudioContext)();
     if (ac.state === 'suspended') ac.resume();
