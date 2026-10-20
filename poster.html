@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Zen+Old+Mincho:wght@500;700&family=Noto+Sans+JP:wght@400;700&display=swap">
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
 <style>
-/* One A4 sheet with a large QR. ?theme=white|ivory|noir|rouge|rose picks the colours; the backdrop, frame and
+/* One A4 sheet with a 92 mm QR. ?theme=white|ivory|noir|rouge|rose picks the colours; the backdrop, frame and
    Art Deco corners are one SVG, so they print without the browser's "background graphics" option.
    The QR always sits on white and points at this site, or at the address after # for a preview. */
 @page { size: A4; margin: 0; }
@@ -24,19 +24,20 @@ html, body { margin: 0; background: #E9E6DF; font-family: "Noto Sans JP", sans-s
 .sheet { width: 210mm; height: 297mm; margin: 0 auto; position: relative; overflow: hidden; color: var(--ink); }
 .art { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 .deco { opacity: var(--deco); }
-.inner { position: relative; height: 100%; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 23mm 12mm 12mm; }
+.inner { position: relative; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20mm 14mm 22mm; }
 .school { margin: 0; font-family: "Cormorant Garamond", serif; font-weight: 600; font-size: 4.6mm; letter-spacing: 2mm; text-transform: uppercase; color: var(--gold); }
-.title { margin: 4mm 0 0; font-family: "Cormorant Garamond", serif; font-weight: 500; font-size: 18mm; letter-spacing: 2.4mm; line-height: 1.05; }
-.eyebrow { margin: 3mm 0 0; font-family: "Cormorant Garamond", serif; font-weight: 600; font-size: 5mm; letter-spacing: 3.4mm; text-transform: uppercase; color: var(--gold); }
-.qrbox { margin-top: 8mm; background: #FFF; padding: 0; }
+.title { margin: 4mm 0 0; font-family: "Cormorant Garamond", serif; font-weight: 500; font-size: 21mm; letter-spacing: 2.6mm; line-height: 1.05; }
+.eyebrow { margin: 3.5mm 0 0; font-family: "Cormorant Garamond", serif; font-weight: 600; font-size: 5mm; letter-spacing: 3.4mm; text-transform: uppercase; color: var(--gold); }
+.qrbox { margin-top: 13mm; background: #FFF; padding: 0; }
 :root:not([data-theme="white"]) .qrbox { padding: 3mm; border: 0.6mm solid var(--gold); outline: 0.25mm solid var(--gold); outline-offset: 1.2mm; }
-.qr { width: 116mm; height: 116mm; }
+.qr { width: 92mm; height: 92mm; }
 .qr svg { width: 100%; height: 100%; display: block; }
 .url { margin-top: 2.5mm; font-size: 4.2mm; letter-spacing: 0.2mm; color: var(--soft); }
-ol { list-style: none; padding: 0; margin: 7mm 0 0; text-align: left; font-size: 5.8mm; font-weight: 700; }
-li { display: flex; align-items: center; gap: 4mm; margin: 0 0 3mm; }
-li b { flex: none; width: 8.5mm; height: 8.5mm; border: 0.3mm solid var(--gold); display: grid; place-items: center; font-family: "Cormorant Garamond", serif; font-weight: 600; font-size: 5.2mm; color: var(--gold); }
-.fine { margin-top: auto; padding-bottom: 6mm; font-size: 3.5mm; color: var(--soft); line-height: 1.7; }
+ol { list-style: none; padding: 0; margin: 13mm 0 0; text-align: left; font-size: 6.6mm; font-weight: 700; }
+li { display: flex; align-items: center; gap: 5mm; margin: 0 0 5mm; }
+li:last-child { margin-bottom: 0; }
+li span { font-feature-settings: "palt"; }
+li b { flex: none; width: 10mm; height: 10mm; border: 0.3mm solid var(--gold); display: grid; place-items: center; font-family: "Cormorant Garamond", serif; font-weight: 600; font-size: 6mm; color: var(--gold); }
 @media screen { body { padding: 16px 0; } .sheet { box-shadow: 0 2px 16px rgba(0, 0, 0, 0.25); } }
 @media screen and (max-width: 800px) { .sheet { zoom: 0.45; } }
 </style>
@@ -83,17 +84,15 @@ li b { flex: none; width: 8.5mm; height: 8.5mm; border: 0.3mm solid var(--gold);
   </svg>
   <div class="inner">
     <p class="school">Keio High School</p>
-    <h1 class="title">GRAND CASINO</h1>
+    <h1 class="title">GRAND<br>CASINO</h1>
     <p class="eyebrow">Photo Booth</p>
     <div class="qrbox"><div class="qr" id="qr"></div></div>
     <div class="url" id="url"></div>
     <ol>
       <li><b>1</b><span>スマホのカメラでQRコードを読み取る</span></li>
-      <li><b>2</b><span>「撮影をはじめる」を押して1枚撮る</span></li>
-      <li><b>3</b><span>背景とフレームを選んで保存</span></li>
+      <li><b>2</b><span>「撮影を始める」を押して写真を撮る</span></li>
+      <li><b>3</b><span>好きな背景とフレームを選んで保存しよう</span></li>
     </ol>
-    <p class="fine">アプリ不要・無料。写真はスマホの中だけで作られ、どこにも送られません。<br>
-      はじめに撮影用のデータ（<span id="size">約20MB</span>）を読み込みます。並んでいる間に開いておくと待たずに撮れます。</p>
   </div>
 </div>
 <script>
