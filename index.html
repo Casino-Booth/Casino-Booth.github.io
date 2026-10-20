@@ -163,7 +163,7 @@ button:focus-visible, .file-btn:focus-within { outline: 2px solid var(--gold-hi)
 <section id="s-result" class="screen result" hidden>
   <div class="result-frame"><img id="result" alt="仕上がった写真"></div>
   <div class="picker">
-    <h3>背景</h3>
+    <h3 id="bg-head">背景</h3>
     <div id="bg-row" class="bg-row" role="group" aria-label="背景"></div>
   </div>
   <div class="picker">
@@ -1506,6 +1506,7 @@ function buildPickers() {
   const row = $('bg-row'); row.textContent = '';
   // Without a cut-out the photo stays as taken, so there is no background to choose.
   row.parentElement.hidden = !state.cut;
+  $('bg-head').textContent = `背景　${BGS.length}種類・横にスクロール`;
   for (const b of state.cut ? BGS : []) {
     const btn = document.createElement('button');
     btn.type = 'button'; btn.className = 'bg-opt'; btn.dataset.bg = b.id;
