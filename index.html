@@ -130,6 +130,7 @@ button:focus-visible, .file-btn:focus-within { outline: 2px solid var(--gold-hi)
   <p class="eyebrow">PHOTO BOOTH</p>
   <p class="sub">撮るのは1枚。背景はあとで選べます。</p>
   <button id="start" class="primary" type="button">撮影をはじめる</button>
+  <label class="ghost file-btn">スマホのカメラで撮る<input id="file-cam0" type="file" accept="image/*" capture="user"></label>
   <p class="fine">AIが人を切り抜いて、カジノの背景の前に立たせます。<br>写真はこのスマホの中だけで作られ、どこにも送られません。</p>
 </section>
 
@@ -1444,7 +1445,7 @@ function openPick(reason) {
     unsupported: IN_APP
       ? 'アプリ内ブラウザではライブカメラが使えません。メニューの「ブラウザで開く」でカウントダウン撮影ができます。ここではスマホのカメラで撮れます。'
       : 'このページではライブカメラが使えないので、スマホのカメラで撮ります。',
-    denied: 'カメラが許可されませんでした。スマホのカメラで撮れます。',
+    denied: 'カメラを許可できませんでした。ほかのアプリの吹き出しなどが画面に重なっていると、許可できないことがあります。スマホのカメラなら許可なしで撮れます。',
     failed: 'カメラを起動できませんでした。スマホのカメラで撮れます。',
     choose: '',
   }[reason] || '';
@@ -1463,11 +1464,12 @@ async function fileToCanvas(file) {
   if (src.close) src.close();
   return c;
 }
-for (const id of ['file-cam', 'file-lib']) {
+// file-cam0 is the welcome screen's shortcut to the phone's own camera: no camera permission, so no permission dialog.
+for (const id of ['file-cam0', 'file-cam', 'file-lib']) {
   $(id).addEventListener('change', async (e) => {
     const file = e.target.files && e.target.files[0]; if (!file) return;
-    audioOn(); loadFonts(); loadSegmenter();
-    try { state.photo = await fileToCanvas(file); } catch (err) { $('pick-reason').textContent = 'この写真は読み込めませんでした。別の写真で試してください。'; return; }
+    audioOn(); loadFonts(); loadSegmenter(); state.mode = 'file';
+    try { state.photo = await fileToCanvas(file); } catch (err) { openPick('choose'); $('pick-reason').textContent = 'この写真は読み込めませんでした。別の写真で試してください。'; return; }
     e.target.value = '';
     await develop();
   });
