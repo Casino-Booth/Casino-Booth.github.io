@@ -99,6 +99,8 @@ button:focus-visible, .file-btn:focus-within { outline: 2px solid var(--gold-hi)
 .bg-row { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
 .bg-opt { flex: none; display: flex; flex-direction: column; align-items: center; gap: 5px; width: 80px; padding: 0; background: none; border: 0; color: var(--muted); font-size: 11.5px; white-space: nowrap; }
 .bg-opt canvas { width: 72px; height: 90px; display: block; border-radius: 2px; border: 1.5px solid transparent; background: var(--panel); }
+.bg-row.land .bg-opt { width: 104px; }
+.bg-row.land .bg-opt canvas { width: 96px; height: 64px; }
 .bg-opt[aria-pressed="true"] { color: var(--gold-hi); }
 .bg-opt[aria-pressed="true"] canvas { border-color: var(--gold-hi); }
 .bg-opt:disabled { opacity: 0.35; }
@@ -108,6 +110,19 @@ button:focus-visible, .file-btn:focus-within { outline: 2px solid var(--gold-hi)
 .actions { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 10px; }
 #save-msg { margin: 0; min-height: 1.4em; font-size: 14px; color: var(--gold-hi); max-width: 26em; text-align: center; }
 .status { margin: 0; font-size: 11px; line-height: 1.5; color: var(--muted); text-align: center; max-width: 34em; }
+
+/* A phone turned sideways: the camera buttons stand in a column at the right, and the photo sits beside its choices. */
+@media (orientation: landscape) and (max-height: 560px) {
+  .center { justify-content: safe center; }
+  #s-camera { flex-direction: row; }
+  .controls { grid-template-columns: none; grid-template-rows: 1fr auto 1fr; padding-top: calc(env(safe-area-inset-top, 0px) + 12px); padding-left: 12px; }
+  .controls > :first-child { justify-self: center; align-self: start; }
+  .controls > :last-child { justify-self: center; align-self: end; }
+  .result { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-content: start; column-gap: 20px; }
+  .result-frame { grid-column: 1; grid-row: 1 / span 5; align-self: center; }
+  .result > :not(.result-frame) { grid-column: 2; justify-self: center; }
+  #result { max-height: calc(100vh - 32px); max-height: calc(100dvh - 32px); }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .spin, #count.pop { animation: none; }
@@ -223,12 +238,18 @@ const BGS = [
   { id: 'montecarlo', ja: 'モンテカルロ', photo: true },
   { id: 'salon1900', ja: 'サロン1900', photo: true },
 ];
-// pw/ph: the photo inside the frame; top: head room above the people, as a share of the photo height
+// pw/ph: the photo inside the frame; top: head room above the people, as a share of the photo height.
+// land: what changes for a photo taken sideways (landscape).
 const FRAMES = {
-  feed: { ja: 'シンプル', w: 1080, h: 1350, px: 0, py: 0, pw: 1080, ph: 1350, top: 0.13 },
-  gorgeous: { ja: 'ゴージャス', w: 1080, h: 1920, px: 0, py: 0, pw: 1080, ph: 1920, top: 0.26 },
-  post: { ja: '投稿風', w: 1080, h: 1920, px: 0, py: 300, pw: 1080, ph: 1080, top: 0.1 },
+  feed: { ja: 'シンプル', w: 1080, h: 1350, px: 0, py: 0, pw: 1080, ph: 1350, top: 0.13,
+    land: { w: 1620, h: 1080, pw: 1620, ph: 1080 } },
+  gorgeous: { ja: 'ゴージャス', w: 1080, h: 1920, px: 0, py: 0, pw: 1080, ph: 1920, top: 0.26,
+    land: { w: 1920, h: 1080, pw: 1920, ph: 1080, top: 0.3 } },
+  post: { ja: '投稿風', w: 1080, h: 1920, px: 0, py: 300, pw: 1080, ph: 1080, top: 0.1,
+    land: { h: 1440, ph: 720 } },
 };
+const isLand = () => !!state.photo && state.photo.width > state.photo.height;
+function frameOf(id) { const F = FRAMES[id]; return isLand() ? { ...F, ...F.land } : F; }
 // How the people are coloured to sit in each background
 const LOOKS = {
   red: { tint: [1.04, 0.99, 0.94], sat: 1.0, target: 0.5, wrap: 0.35, shadow: 0.22, vig: 0.42 },
@@ -340,7 +361,7 @@ function loadFonts() {
 // ---------- the cut-out models (MediaPipe, run on the phone) ----------
 // seg: how likely each pixel is a person. The multiclass model (16 MB) cuts far cleaner than the light one (0.25 MB),
 // which stays as the fallback. face: face detector, used to tell people from look-alike shapes.
-let segP = null, segMode = 'IMAGE';
+let segP = null, segMode = 'IMAGE', vision = null;
 const segLog = [];
 // Models ship as base64 text parts, because hosts like the Claude viewer serve only web file types.
 async function fetchModel(urls) {
@@ -393,8 +414,16 @@ function loadSegmenter() {
       }
       return null;
     })();
+    segP.then((v) => { vision = v; });
   }
   return segP;
+}
+// The models, with a note while the first, slow download runs.
+function visionReady() {
+  let ready = false;
+  const vp = loadSegmenter().then((v) => { ready = true; return v; });
+  setTimeout(() => { if (!ready) $('work-sub').textContent = 'AIを読み込んでいます（最初の1回だけ、少し時間がかかります）'; }, 400);
+  return withTimeout(vp, FAST ? 120000 : 90000);
 }
 async function setSegMode(seg, mode) {
   if (segMode === mode) return;
@@ -524,10 +553,7 @@ function padded(src, L, mirror = false, into = null) {
 }
 async function cutOut(src) {
   const t0 = performance.now();
-  let ready = false;
-  const vp = loadSegmenter().then((v) => { ready = true; return v; });
-  setTimeout(() => { if (!ready) $('work-sub').textContent = 'AIを読み込んでいます（最初の1回だけ、少し時間がかかります）'; }, 400);
-  const vis = await withTimeout(vp, FAST ? 120000 : 90000);
+  const vis = await visionReady();
   if (!vis) { state.cutNote = 'AIの切り抜きを読み込めませんでした'; return null; }
   let m, faces = [], k = 1;
   try {
@@ -700,6 +726,7 @@ function suitPath(x, suit, cx, cy, s) {
 
 // ---------- the backgrounds ----------
 // Each returns { bg, fg }: bg goes behind the people, fg (optional) in front of them.
+// Sizes use u, 1/1080 of the shorter side, so a sideways frame gets props of the same size as an upright one.
 function mix(a, b, t) { return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t]; }
 function glow(x, cx, cy, r, c, a, op = 'lighter') {
   x.save(); x.globalCompositeOperation = op;
@@ -773,7 +800,7 @@ const DECO = {
   mint: { bg: [[0, '#E2F4F0'], [0.55, '#B8E0D8'], [1, '#86BFB4']], foil: [[0, '#7A5518'], [0.22, '#D8B05A'], [0.42, '#93692A'], [0.62, '#EDCF86'], [0.8, '#93692A'], [1, '#6E4C16']], rays: 0.5, vig: 0.12 },
 };
 function drawDeco(W, H, pal) {
-  const u = W / 1080, c = mk(W, H), x = c.getContext('2d'), cx = W / 2, cy = H * 0.62;
+  const u = Math.min(W, H) / 1080, c = mk(W, H), x = c.getContext('2d'), cx = W / 2, cy = H * 0.62;
   x.fillStyle = rg(x, cx, H * 0.45, 0, Math.max(W, H) * 0.8, pal.bg);
   x.fillRect(0, 0, W, H);
   const foil = () => lg(x, 0, 0, W, H, pal.foil);
@@ -817,7 +844,7 @@ function drawDeco(W, H, pal) {
 
 // A bright party wall: pink champagne light, soft bokeh and glitter.
 function drawBlush(W, H) {
-  const u = W / 1080, r = rng(11), c = mk(W, H), x = c.getContext('2d');
+  const u = Math.min(W, H) / 1080, r = rng(11), c = mk(W, H), x = c.getContext('2d');
   x.fillStyle = lg(x, 0, 0, 0, H, [[0, '#FCE8EA'], [0.55, '#F5CDD3'], [1, '#E9B4BC']]); x.fillRect(0, 0, W, H);
   glow(x, W / 2, H * 0.34, W * 0.8, [255, 248, 240], 0.5, 'screen');
   for (let k = 0; k < 90; k++) {
@@ -840,7 +867,7 @@ const SCENES = {
   blush: drawBlush,
   balloonPastel: (W, H) => drawBalloons(W, H, BALLOONS.pastel),
   salon(W, H) {
-    const u = W / 1080, r = rng(7), c = mk(W, H), x = c.getContext('2d'), lights = [];
+    const u = Math.min(W, H) / 1080, r = rng(7), c = mk(W, H), x = c.getContext('2d'), lights = [];
     x.fillStyle = lg(x, 0, 0, 0, H, [[0, '#23110A'], [0.38, '#4C2711'], [0.62, '#2C140A'], [1, '#100705']]);
     x.fillRect(0, 0, W, H);
     // arcade of lit arches on the back wall
@@ -896,7 +923,7 @@ const SCENES = {
   },
 
   table(W, H) {
-    const u = W / 1080, r = rng(21), c = mk(W, H), x = c.getContext('2d'), lights = [];
+    const u = Math.min(W, H) / 1080, r = rng(21), c = mk(W, H), x = c.getContext('2d'), lights = [];
     x.fillStyle = lg(x, 0, 0, 0, H, [[0, '#04100B'], [0.45, '#0C2C20'], [0.75, '#081A12'], [1, '#030806']]);
     x.fillRect(0, 0, W, H);
     // wood panels with gold trim
@@ -961,7 +988,7 @@ const SCENES = {
   },
 
   velvet(W, H) {
-    const u = W / 1080, r = rng(5), c = mk(W, H), x = c.getContext('2d');
+    const u = Math.min(W, H) / 1080, r = rng(5), c = mk(W, H), x = c.getContext('2d');
     const dark = [46, 3, 8], mid = [134, 13, 26], hi = [222, 70, 70];
     const g = x.createLinearGradient(0, 0, W, 0), N = 160;
     for (let i = 0; i <= N; i++) {
@@ -1007,7 +1034,7 @@ const SCENES = {
   },
 
   jackpot(W, H) {
-    const u = W / 1080, r = rng(77), c = mk(W, H), x = c.getContext('2d'), cx = W / 2, cy = H * 0.36;
+    const u = Math.min(W, H) / 1080, r = rng(77), c = mk(W, H), x = c.getContext('2d'), cx = W / 2, cy = H * 0.36;
     x.fillStyle = rg(x, cx, cy, 0, Math.max(W, H) * 0.85, [[0, '#FFF1B8'], [0.16, '#F4C55A'], [0.5, '#B97A19'], [1, '#3A2004']]);
     x.fillRect(0, 0, W, H);
     x.save(); x.globalCompositeOperation = 'screen'; x.fillStyle = 'rgba(255,240,190,0.11)';
@@ -1060,7 +1087,7 @@ const BALLOONS = {
     kinds: ['pink', 'pink', 'pink', 'blush', 'blush', 'pearl', 'pearl', 'gold', 'gold', 'champagne'] },
 };
 function drawBalloons(W, H, pal) {
-  const u = W / 1080, r = rng(3), c = mk(W, H), x = c.getContext('2d');
+  const u = Math.min(W, H) / 1080, r = rng(3), c = mk(W, H), x = c.getContext('2d');
   // gold sequin wall
   x.fillStyle = pal.wall; x.fillRect(0, 0, W, H);
   const s = 15 * u, rad = 6.6 * u;
@@ -1181,6 +1208,8 @@ function placePerson(cut, aspect, top) {
   if (t.l && t.r && cw > W) { cw = W; ch = cw / aspect; }
   if (t.t && t.b && ch > H) { ch = H; cw = ch * aspect; }
   let sy = t.b ? H - ch : b.y1 + ch * 0.05 - ch;
+  // A window too short for the people (shoulders filling the width) keeps the head room and cuts their bodies lower down.
+  sy = Math.min(sy, b.y0 - top * ch);
   if (t.t) sy = Math.max(sy, 0);
   let sx = (b.x0 + b.x1) / 2 - cw / 2;
   if (t.l) sx = Math.max(sx, 0);
@@ -1196,7 +1225,7 @@ function realRect(cut, W, H, aspect, top) {
     const b = cut.box, want = Math.max((b.y1 - b.y0) / (1 - top), (b.x1 - b.x0) / 0.9 / aspect);
     if (want < sh) { const k = Math.max(want / sh, 0.6); sw *= k; sh *= k; }
     cx = (b.x0 + b.x1) / 2;
-    sy = cut.touch.b ? H - sh : b.y0 - top * sh;
+    sy = cut.touch.b ? Math.min(H - sh, b.y0 - top * sh) : b.y0 - top * sh;
   }
   return { sx: clamp(cx - sw / 2, 0, W - sw), sy: clamp(sy, 0, H - sh), sw, sh };
 }
@@ -1269,7 +1298,8 @@ function renderPhoto(bgId, pw, ph, top) {
     px.globalCompositeOperation = 'source-over';
     gradePixels(pc, look, cut.stats, sc.wrapData);
     x.drawImage(sc.bg, 0, 0);
-    x.save(); x.shadowColor = `rgba(0,0,0,${look.shadow})`; x.shadowBlur = 44 * pw / 1080; x.shadowOffsetY = 18 * pw / 1080;
+    const u = Math.min(pw, ph) / 1080;
+    x.save(); x.shadowColor = `rgba(0,0,0,${look.shadow})`; x.shadowBlur = 44 * u; x.shadowOffsetY = 18 * u;
     x.drawImage(pc, 0, 0); x.restore();
     if (sc.fg) x.drawImage(sc.fg, 0, 0);
     free(pc);
@@ -1337,19 +1367,21 @@ const FRAME_DRAW = {
   },
   // The old story look, dressed up: a gold band with Art-Deco corners, marquee bulbs and sparkles.
   gorgeous(x, photo, F) {
-    const W = F.w, H = F.h;
+    // dx centres the 1080-wide lettering on a sideways frame, whose short height also pulls the top lines up.
+    const W = F.w, H = F.h, dx = (W - 1080) / 2, nb = Math.round((W - 220) / 72) + 1;
+    const [placeY, scriptY, scriptS] = W > H ? [170, 280, 100] : [196, 334, 116];
     x.drawImage(photo, 0, 0);
     x.fillStyle = lg(x, 0, 0, 0, H * 0.3, [[0, 'rgba(0,0,0,0.62)'], [1, 'rgba(0,0,0,0)']]); x.fillRect(0, 0, W, H * 0.3);
     x.fillStyle = lg(x, 0, H * 0.7, 0, H, [[0, 'rgba(0,0,0,0)'], [1, 'rgba(0,0,0,0.78)']]); x.fillRect(0, H * 0.7, W, H * 0.3);
     goldBand(x, W, H);
-    bulbs(x, W, 92, 13); bulbs(x, W, H - 92, 13);
-    x.fillStyle = '#F4EFE1'; spaced(x, CONFIG.place, W / 2, 196, '600 26px "Bodoni Moda", Georgia, serif', 12);
-    scriptText(x, CONFIG.school, W / 2, 334, 116);
-    sparkle(x, 170, 262, 22); sparkle(x, 914, 300, 16); sparkle(x, 862, 236, 10);
+    bulbs(x, W, 92, nb); bulbs(x, W, H - 92, nb);
+    x.fillStyle = '#F4EFE1'; spaced(x, CONFIG.place, W / 2, placeY, '600 26px "Bodoni Moda", Georgia, serif', 12);
+    scriptText(x, CONFIG.school, W / 2, scriptY, scriptS);
+    sparkle(x, dx + 170, scriptY - 72, 22); sparkle(x, dx + 914, scriptY - 34, 16); sparkle(x, dx + 862, scriptY - 98, 10);
     suitRow(x, W / 2, H - 316, 30, 56);
     x.save(); x.shadowColor = 'rgba(255,196,80,0.6)'; x.shadowBlur = 34;
     x.fillStyle = goldText(x, H - 262, H - 196); spaced(x, CONFIG.event, W / 2, H - 200, '700 66px "Bodoni Moda", Georgia, serif', 14); x.restore();
-    sparkle(x, 120, H - 236, 18); sparkle(x, 960, H - 248, 24);
+    sparkle(x, dx + 120, H - 236, 18); sparkle(x, dx + 960, H - 248, 24);
     x.fillStyle = '#F4EFE1'; spaced(x, dateStr(), W / 2, H - 146, '500 27px "Bodoni Moda", Georgia, serif', 10);
   },
   post(x, photo, F) {
@@ -1383,7 +1415,7 @@ const FRAME_DRAW = {
   },
 };
 function composeImage(bgId, frameId) {
-  const F = FRAMES[frameId], photo = renderPhoto(bgId, F.pw, F.ph, F.top);
+  const F = frameOf(frameId), photo = renderPhoto(bgId, F.pw, F.ph, F.top);
   const out = mk(F.w, F.h), x = out.getContext('2d');
   FRAME_DRAW[frameId](x, photo, F);
   free(photo);
@@ -1420,6 +1452,62 @@ function stopCamera() {
   if (state.stream) { state.stream.getTracks().forEach((t) => t.stop()); state.stream = null; }
   watchLight(false);
 }
+
+// ---------- a phone held sideways ----------
+// With the screen's rotation lock on, the page stays upright and the camera films the people lying on their side.
+// Faces, or else the motion sensor, show which way is up. src is drawn at most L pixels long, turned deg clockwise
+// (0, 90 or -90), then mirrored.
+function turned(src, deg, L, mirror = false) {
+  const sw = src.videoWidth || src.width, sh = src.videoHeight || src.height, k = Math.min(1, L / Math.max(sw, sh)), w = sw * k, h = sh * k;
+  const c = deg ? mk(h, w) : mk(w, h), x = c.getContext('2d', { willReadFrequently: true });
+  x.translate(c.width / 2, c.height / 2);
+  if (mirror) x.scale(-1, 1);
+  x.rotate(deg * Math.PI / 180);
+  x.drawImage(src, -w / 2, -h / 2, w, h);
+  return c;
+}
+// The turn that stands the clearest face up, read from its eyes above its mouth; null when no face shows.
+// The detector finds faces lying on their side too, but not the small faces of a group shot.
+function faceTurn(face, src) {
+  const pc = padded(src, 320).canvas, W = pc.width, H = pc.height;
+  let best = null;
+  try {
+    for (const d of face.detect(pc).detections || []) {
+      const s = (d.categories && d.categories[0] && d.categories[0].score) || 0, k = d.keypoints || [];
+      if (s >= 0.6 && k.length >= 4 && (!best || s > best.s)) best = { s, k };
+    }
+  } catch (e) { /* counts as no face */ }
+  free(pc);
+  if (!best) return null;
+  // keypoints: 0 and 1 the eyes, 3 the mouth
+  const [e1, e2, , m] = best.k, ux = ((e1.x + e2.x) / 2 - m.x) * W, uy = ((e1.y + e2.y) / 2 - m.y) * H;
+  if (FAST) segLog.push(`face up ${Math.round(ux)},${Math.round(uy)} score ${Math.round(best.s * 100)}`);
+  // a head tilted for the pose is not a phone on its side: only a face lying past about 63 degrees turns the photo
+  if (Math.abs(ux) > 2 * Math.abs(uy)) return ux > 0 ? -90 : 90;
+  return -uy > Math.abs(ux) ? 0 : null;
+}
+// The motion sensor's pull of gravity, in the phone's own axes. Android gives it freely; iPhones only after a
+// permission dialog, which the booth does not show, so there the faces alone decide.
+let gravity = null;
+addEventListener('devicemotion', (e) => { const g = e.accelerationIncludingGravity; if (g && g.x != null) gravity = g; });
+// Which way the phone's top points as the photo is taken: 1 left, -1 right, 0 up; null when unknown.
+// The preview needs no help: the screen turns with the camera, like a window or a mirror held sideways.
+function sideNow() {
+  if (video.videoWidth >= video.videoHeight) return 0;
+  const t = vision && vision.face ? faceTurn(vision.face, video) : null;
+  if (t !== null) return t && (state.facing === 'user' ? t : -t) / 90;
+  if (!gravity) return null;
+  const gx = Math.abs(gravity.x), gy = Math.abs(gravity.y);
+  if (gx > 6 && gx > gy * 1.5) return Math.sign(gravity.x);
+  return gy > 6 && gy > gx * 1.5 ? 0 : null;
+}
+// After the shot, for a turn sideNow could not see (the models were still loading).
+async function standUp() {
+  const p = state.photo;
+  if (p.width >= p.height) return;
+  const vis = await visionReady(), t = vis && vis.face ? faceTurn(vis.face, p) : null;
+  if (t) { state.photo = turned(p, t, 1600); free(p); }
+}
 let lightTimer = null;
 function watchLight(on) {
   clearInterval(lightTimer); $('dark').hidden = true;
@@ -1436,13 +1524,8 @@ function watchLight(on) {
 
 function note(t) { const n = $('live-note'); n.textContent = t; n.hidden = !t; }
 
-function grabFrame() {
-  const vw = video.videoWidth, vh = video.videoHeight, k = Math.min(1, 1600 / Math.max(vw, vh));
-  const c = mk(vw * k, vh * k), x = c.getContext('2d', { willReadFrequently: true });
-  if (state.facing === 'user') { x.translate(c.width, 0); x.scale(-1, 1); }
-  x.drawImage(video, 0, 0, c.width, c.height);
-  return c;
-}
+// The front camera films the people the other way round from the back one, and its photo is mirrored after turning.
+function grabFrame(side) { const front = state.facing === 'user'; return turned(video, side * (front ? 90 : -90), 1600, front); }
 function sharpness(c) {
   const w = 160, h = Math.max(3, Math.round(160 * c.height / c.width));
   const t = mk(w, h), x = t.getContext('2d', { willReadFrequently: true });
@@ -1468,8 +1551,8 @@ async function shoot() {
   $('count').hidden = true; sfx.go();
   const f = $('flash'); f.classList.remove('go'); void f.offsetWidth; f.classList.add('go');
   sfx.shutter();
-  const frames = [];
-  for (let i = 0; i < CONFIG.burst; i++) { frames.push(grabFrame()); await sleep(70); }
+  const frames = [], side = sideNow() || 0;
+  for (let i = 0; i < CONFIG.burst; i++) { frames.push(grabFrame(side)); await sleep(70); }
   let best = frames[0], bs = -1;
   for (const fr of frames) { const s = sharpness(fr); if (s > bs) { bs = s; best = fr; } }
   frames.forEach((fr) => { if (fr !== best) free(fr); });
@@ -1523,6 +1606,7 @@ async function develop() {
   if (state.cut) { free(state.cut.alphaCanvas); state.cut = null; }
   for (const cache of [bigScenes, smallScenes]) { for (const s of cache.values()) { free(s.bg); free(s.fg); } cache.clear(); }
   state.cutNote = '';
+  if (state.mode === 'live') await standUp();
   state.cut = await cutOut(state.photo);
   $('work-sub').textContent = '背景を合わせています';
   await sleep(30);
@@ -1547,7 +1631,8 @@ async function renderResult() {
   return Math.round(performance.now() - t0);
 }
 function buildPickers() {
-  const row = $('bg-row'); row.textContent = '';
+  const row = $('bg-row'), land = isLand(); row.textContent = '';
+  row.classList.toggle('land', land);
   // Without a cut-out the photo stays as taken, so there is no background to choose.
   row.parentElement.hidden = !state.cut;
   $('bg-head').textContent = `背景　${BGS.length}種類・横にスクロール`;
@@ -1555,7 +1640,7 @@ function buildPickers() {
     const btn = document.createElement('button');
     btn.type = 'button'; btn.className = 'bg-opt'; btn.dataset.bg = b.id;
     btn.setAttribute('aria-pressed', String(state.bg === b.id));
-    const cv = mk(144, 180); btn.appendChild(cv);
+    const cv = land ? mk(192, 128) : mk(144, 180); btn.appendChild(cv);
     const label = document.createElement('span'); label.textContent = b.ja; btn.appendChild(label);
     btn.addEventListener('click', () => choose({ bg: b.id }));
     row.appendChild(btn);
@@ -1577,7 +1662,7 @@ async function fillThumbs() {
     if (job !== thumbJob) return;
     const cv = btn.querySelector('canvas'), id = btn.dataset.bg;
     if (btn.disabled) { const x = cv.getContext('2d'); x.fillStyle = '#151815'; x.fillRect(0, 0, cv.width, cv.height); continue; }
-    const p = renderPhoto(id, cv.width, cv.height, FRAMES.feed.top);
+    const p = renderPhoto(id, cv.width, cv.height, frameOf('feed').top);
     cv.getContext('2d').drawImage(p, 0, 0); free(p);
   }
 }
@@ -1651,14 +1736,16 @@ if (FAST) {
         window.__out.scene = await toBlob(made.bg);
       } else if (TEST.startsWith('autotest-file')) {
         const blob = await (await fetch('test/selfie.jpg')).blob();
-        state.mode = 'file'; state.photo = await fileToCanvas(blob);
+        // -live: treat the photo as a live-camera frame, which may be sideways
+        state.mode = TEST.includes('-live') ? 'live' : 'file'; state.photo = await fileToCanvas(blob);
         await develop();
         if (state.cut) {
           const mc = mk(state.cut.w, state.cut.h), mx = mc.getContext('2d');
           mx.fillStyle = '#000'; mx.fillRect(0, 0, mc.width, mc.height); mx.drawImage(state.cut.alphaCanvas, 0, 0);
           window.__out.mask = await toBlob(mc); free(mc);
         }
-        const combos = BGS.map((b) => [b.id, 'feed']).concat([['deco', 'gorgeous'], ['decoRouge', 'gorgeous'], ['decoRose', 'gorgeous'], ['balloonPastel', 'gorgeous'], ['blush', 'post']]);
+        const combos = BGS.map((b) => [b.id, 'feed']).concat([['deco', 'gorgeous'], ['decoRouge', 'gorgeous'], ['decoRose', 'gorgeous'], ['balloonPastel', 'gorgeous'], ['jackpot', 'gorgeous'],
+          ['blush', 'post'], ['deco', 'post'], ['opera', 'post']]);
         for (const [b, f] of combos) {
           const t = performance.now(), c = composeImage(b, f);
           window.__times[`${b}-${f}`] = Math.round(performance.now() - t);
